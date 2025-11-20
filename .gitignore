@@ -1,0 +1,38 @@
+# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio caches
+.vs/
+.vscode/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-debug.log*
+yarn-error.log*
+
+# Tailwind/PostCSS output
+wwwroot/css/site.css.map
+
+# Others
+*.dbmdl
+*.bak
+*.msscci
+*.vdm
+*.vssscc
+*.tmp
+*.temp
+*.log
+
+# Publish output
+/dist/
+publish/
