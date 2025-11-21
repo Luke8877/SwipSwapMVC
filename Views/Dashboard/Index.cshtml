@@ -50,3 +50,40 @@
     </div>
 
 </div>
+
+<!--Modal Backdrop-->
+<div id="modalBackdrop" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
+
+<!-- Modal Container -->
+<div id="modalContainer"
+     class="fixed inset-0 flex justify-center items-center hidden z-50">
+
+    <!-- Modal Content -->
+    <div id="modalContent"
+         class="bg-white rounded-lg shadow-xl w-full max-w-xl p-6 max-h-[90vh] overflow-y-auto">
+    </div>
+
+</div>
+
+<!-- Included Javascript for opening and closing modal when product card is clicked-->
+@section Scripts {
+    <script>
+        function openModal(productId) {
+            fetch(`/Dashboard/ProductDetails?id=${productId}`)
+                .then(response => response.text())
+                .then(html => {
+                    // Insert HTML into modal
+                    document.getElementById("modalContainer").innerHTML = html;
+
+                    // Show modal & backdrop
+                    document.getElementById("modalContainer").classList.remove("hidden");
+                    document.getElementById("modalBackdrop").classList.remove("hidden");
+                });
+        }
+
+        function closeModal() {
+            document.getElementById("modalContainer").classList.add("hidden");
+            document.getElementById("modalBackdrop").classList.add("hidden");
+        }
+    </script>
+}

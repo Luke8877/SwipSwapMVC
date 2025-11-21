@@ -15,5 +15,10 @@ namespace swipswapmvc.Controllers
             var products = _context.Products.ToList();
             return View(products);
         }
+
+        public IActionResult ProductDetails()
+        {
+            return View();
+        }
     }
 }
