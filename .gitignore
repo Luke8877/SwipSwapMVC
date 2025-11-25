@@ -36,3 +36,7 @@ wwwroot/css/site.css.map
 # Publish output
 /dist/
 publish/
+
+# Configuration files with secrets
+appsettings.json
+appsettings.Development.json

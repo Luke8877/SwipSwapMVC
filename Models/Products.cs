@@ -6,10 +6,6 @@ using SwipSwapMVC.Models;
 
 namespace SwipSwapMarketplace.Models
 {
-    /// <summary>
-    /// Represents a product listed for sale in the SwipSwap marketplace.
-    /// Each product is associated with a seller, category, and may be linked to an order once sold.
-    /// </summary>
     public class Product
     {
         [Key]
@@ -24,21 +20,24 @@ namespace SwipSwapMarketplace.Models
         [Precision(18, 2)]
         public decimal Price { get; set; }
 
-        [ForeignKey("Category")]
+        [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
 
-        [ForeignKey("User")]
+        [ForeignKey(nameof(Seller))]
         public int SellerId { get; set; }
 
         public string? ImageUrl { get; set; }
 
         public bool IsSold { get; set; } = false;
 
+        public bool IsArchived { get; set; } = false;   
+
         public DateTime DatePosted { get; set; } = DateTime.Now;
 
-        // Navigation Properties
-        public Category? Category { get; set; }   // Category the product belongs to
-        public User? User { get; set; }           // Seller who listed the product
-        public Order? Order { get; set; }         // Linked order if the product has been sold
+        public Category? Category { get; set; }
+
+        public User? Seller { get; set; }   
+
+        public Order? Order { get; set; }  
     }
 }

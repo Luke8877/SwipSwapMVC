@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SwipSwapMVC.Data;
 
@@ -11,9 +12,11 @@ using SwipSwapMVC.Data;
 namespace SwipSwapMVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251124041504_SeedData")]
+    partial class SeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,7 +113,8 @@ namespace SwipSwapMVC.Migrations
 
                     b.HasIndex("BuyerId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.ToTable("Orders");
                 });
@@ -177,9 +181,6 @@ namespace SwipSwapMVC.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsArchived")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsSold")
                         .HasColumnType("bit");
 
@@ -207,9 +208,8 @@ namespace SwipSwapMVC.Migrations
                         {
                             ProductId = 1,
                             CategoryId = 1,
-                            DatePosted = new DateTime(2025, 11, 25, 22, 13, 51, 756, DateTimeKind.Utc).AddTicks(637),
+                            DatePosted = new DateTime(2025, 11, 24, 4, 15, 4, 185, DateTimeKind.Utc).AddTicks(5000),
                             Description = "Seeded test product",
-                            IsArchived = false,
                             IsSold = false,
                             Name = "Test Product",
                             Price = 10.00m,
@@ -232,9 +232,6 @@ namespace SwipSwapMVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -255,9 +252,8 @@ namespace SwipSwapMVC.Migrations
                         new
                         {
                             UserId = 1,
-                            DateCreated = new DateTime(2025, 11, 25, 22, 13, 51, 756, DateTimeKind.Utc).AddTicks(506),
+                            DateCreated = new DateTime(2025, 11, 24, 4, 15, 4, 185, DateTimeKind.Utc).AddTicks(4839),
                             Email = "test@test.com",
-                            IsActive = true,
                             PasswordHash = "fakehash",
                             PhoneNumber = "0000000000",
                             Username = "TestUser"
@@ -315,7 +311,7 @@ namespace SwipSwapMVC.Migrations
                     b.HasOne("SwipSwapMarketplace.Models.User", "Seller")
                         .WithMany("Products")
                         .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
