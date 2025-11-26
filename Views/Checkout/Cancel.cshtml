@@ -1,5 +1,71 @@
-﻿@model int
+﻿@{
+    Layout = null;
+}
 
-<h1>Payment Cancelled</h1>
-<p>Your order @Model was cancelled or not completed.</p>
-sdasdasda
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <title>Payment Cancelled</title>
+</head>
+
+<!-- Card -->
+<body class="bg-gray-100 min-h-screen flex justify-center items-center">
+
+    <!-- Page container -->
+    <div class="max-w-lg mx-auto px-4">
+
+        <!-- Main card -->
+        <div class="bg-white rounded-3xl shadow-xl p-10 text-center">
+
+            <!-- Status icon -->
+            <div class="flex justify-center mb-8">
+                <div class="w-20 h-20 rounded-full flex items-center justify-center bg-red-50">
+                    <!-- Error icon -->
+                    <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="11"></circle>
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M15 9l-6 6m0-6l6 6" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-xl font-semibold text-gray-900 mb-3">
+                Payment Cancelled
+            </h1>
+
+            <!-- Explanation -->
+            <p class="text-gray-600 mb-6">
+                Your order has been cancelled and you have not been charged.
+            </p>
+
+            <!-- Follow-up note -->
+            <p class="text-gray-500 mb-10">
+                If you experienced any issues during checkout,
+                please try again later.
+            </p>
+
+            <!-- Primary action -->
+            <a href="/Home/Index"
+               class="inline-flex items-center justify-center gap-2
+                      bg-gray-900 text-white px-6 py-3 w-full rounded-xl
+                      hover:bg-gray-800 transition mb-4">
+
+                <!-- Arrow icon -->
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+
+                Return to Dashboard
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

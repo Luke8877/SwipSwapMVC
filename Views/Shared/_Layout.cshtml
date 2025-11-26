@@ -12,18 +12,19 @@
 <body class="bg-gray-50 text-gray-900">
 
     <!-- NAVBAR -->
-    <header class="bg-white border-b shadow-sm">
-        <nav class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-            <a class="text-xl font-semibold text-green-700" asp-area="" asp-controller="Home" asp-action="Index">
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="/" class="text-2xl font-bold text-green-600 hover:text-green-700">
                 SwipSwapMVC
             </a>
 
-            <div class="space-x-6 text-gray-700">
-                <a asp-controller="Home" asp-action="Index" class="hover:text-green-700">Home</a>
-                <a asp-controller="Home" asp-action="Privacy" class="hover:text-green-700">Privacy</a>
-            </div>
-        </nav>
+            <nav class="flex space-x-8 text-gray-700">
+                <a href="/" class="hover:text-black">Home</a>
+                <a href="/Home/Privacy" class="hover:text-black">Privacy</a>
+            </nav>
+        </div>
     </header>
+
 
     <!-- MAIN CONTENT -->
     <main class="max-w-7xl mx-auto px-4 py-6">

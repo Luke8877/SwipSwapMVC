@@ -3,13 +3,18 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="text-5xl font-extrabold text-green-500">Tailwind is working!</h1>
+
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
 <form asp-controller="Checkout" asp-action="Create" method="post">
     <input type="hidden" name="productId" value="1" />
     @Html.AntiForgeryToken()
-    <button type="submit">Buy Now</button>
+    <button type="submit"
+            class="mt-6 bg-blue-600 hover:bg-blue-700 text-black font-medium px-6 py-3 rounded-lg shadow-md transition">
+        Buy Now
+    </button>
+
 </form>
 

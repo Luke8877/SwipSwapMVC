@@ -2,7 +2,6 @@
 module.exports = {
     content: [
         "./Views/**/*.cshtml",
-        "./Views/**/*.razor",
         "./Pages/**/*.cshtml",
         "./wwwroot/js/**/*.js"
     ],

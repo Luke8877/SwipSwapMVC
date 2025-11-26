@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SwipSwapMVC.Data;
 
@@ -11,9 +12,11 @@ using SwipSwapMVC.Data;
 namespace SwipSwapMVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251126002956_njoikewrfgf")]
+    partial class njoikewrfgf
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,7 +210,7 @@ namespace SwipSwapMVC.Migrations
                         {
                             ProductId = 1,
                             CategoryId = 1,
-                            DatePosted = new DateTime(2025, 11, 26, 0, 30, 39, 118, DateTimeKind.Utc).AddTicks(4267),
+                            DatePosted = new DateTime(2025, 11, 26, 0, 29, 56, 66, DateTimeKind.Utc).AddTicks(3021),
                             Description = "Seeded test product",
                             IsArchived = false,
                             IsSold = false,
@@ -255,7 +258,7 @@ namespace SwipSwapMVC.Migrations
                         new
                         {
                             UserId = 1,
-                            DateCreated = new DateTime(2025, 11, 26, 0, 30, 39, 118, DateTimeKind.Utc).AddTicks(4097),
+                            DateCreated = new DateTime(2025, 11, 26, 0, 29, 56, 66, DateTimeKind.Utc).AddTicks(2874),
                             Email = "test@test.com",
                             IsActive = true,
                             PasswordHash = "fakehash",
