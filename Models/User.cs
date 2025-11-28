@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SwipSwapMVC.Models;
 
-namespace SwipSwapMarketplace.Models
+namespace SwipSwapMVC.Models
 {
     /// <summary>
     /// Represents an individual user within the SwipSwap marketplace.

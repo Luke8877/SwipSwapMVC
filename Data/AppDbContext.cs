@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SwipSwapMarketplace.Models;
+using SwipSwapMVC.Models;
 using SwipSwapMVC.Models;
 
 namespace SwipSwapMVC.Data
@@ -18,8 +18,7 @@ namespace SwipSwapMVC.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-                }
-            );
+               
 
             // ---------------------------
             // SEED CATEGORIES

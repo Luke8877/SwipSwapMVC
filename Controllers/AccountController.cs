@@ -2,23 +2,23 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using SwipSwapAuth.Data;
-using SwipSwapAuth.Models;
+using SwipSwapMVC.Data;
+using SwipSwapMVC.Models;
 using SwipSwapAuth.ViewModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace SwipSwapAuth.Controllers
+namespace SwipSwapMVC.Controllers
 {
     public class AccountController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
+        private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IConfiguration _config;
 
         public AccountController(AppDbContext context,
-                                 IPasswordHasher<ApplicationUser> passwordHasher,
+                                 IPasswordHasher<User> passwordHasher,
                                  IConfiguration config)
         {
             _context = context;
@@ -55,7 +55,7 @@ namespace SwipSwapAuth.Controllers
                 return View(model);
             }
 
-            var user = new ApplicationUser
+            var user = new User
             {
                 Username = model.Username,
                 Email = model.Email
@@ -143,7 +143,7 @@ namespace SwipSwapAuth.Controllers
         // ---------------------------
         // GENERATE JWT TOKEN
         // ---------------------------
-        private string GenerateJwtToken(ApplicationUser user)
+        private string GenerateJwtToken(User user)
         {
             var jwtSettings = _config.GetSection("Jwt");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
@@ -153,7 +153,7 @@ namespace SwipSwapAuth.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("userId", user.Id.ToString())
+                new Claim("userId", user.UserId.ToString())
             };
 
             var token = new JwtSecurityToken(

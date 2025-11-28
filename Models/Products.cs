@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using SwipSwapMVC.Models;
 
-namespace SwipSwapMarketplace.Models
+namespace SwipSwapMVC.Models
 {
     /// <summary>
     /// Represents a product listed for sale in the SwipSwap marketplace.

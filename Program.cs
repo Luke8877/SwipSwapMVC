@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using SwipSwapAuth.Data;
+using SwipSwapMVC.Data;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);

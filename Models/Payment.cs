@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SwipSwapMVC.Models;
 
-namespace SwipSwapMarketplace.Models
+namespace SwipSwapMVC.Models
 {
     /// <summary>
     /// Represents a payment record linked to an order.
