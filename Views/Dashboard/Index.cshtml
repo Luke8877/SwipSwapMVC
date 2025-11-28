@@ -1,0 +1,89 @@
+﻿@using SwipSwapMarketplace.Models;
+
+@model List<Product>
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="space-y-6">
+
+    <!-- Search Bar -->
+    <div class="flex items-center gap-2">
+        <input type="text"
+               placeholder="Search for products..."
+               class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-green-600 focus:outline-none" />
+
+        <button class="px-6 py-2 bg-green-700 text-white rounded-lg shadow hover:bg-green-800 transition">
+            Search
+        </button>
+    </div>
+
+    <!-- Category Buttons -->
+    <div class="flex flex-wrap gap-3">
+        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Electronics
+        </button>
+        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Vehicles
+        </button>
+        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Clothing
+        </button>
+        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Home Goods
+        </button>
+        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Sports
+        </button>
+        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Other
+        </button>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        @foreach (var product in Model)
+        {
+            @await Html.PartialAsync("_ProductCard", product)
+        }
+    </div>
+
+</div>
+
+<!--Modal Backdrop-->
+<div id="modalBackdrop" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
+
+<!-- Modal Container -->
+<div id="modalContainer"
+     class="fixed inset-0 flex justify-center items-center hidden z-50">
+
+    <!-- Modal Content -->
+    <div id="modalContent"
+         class="bg-white rounded-lg shadow-xl w-full max-w-xl p-6 max-h-[90vh] overflow-y-auto">
+    </div>
+
+</div>
+
+<!-- Included Javascript for opening and closing modal when product card is clicked-->
+@section Scripts {
+    <script>
+        function openModal(productId) {
+            fetch(`/Dashboard/ProductDetails?id=${productId}`)
+                .then(response => response.text())
+                .then(html => {
+                    // Insert HTML into modal
+                    document.getElementById("modalContainer").innerHTML = html;
+
+                    // Show modal & backdrop
+                    document.getElementById("modalContainer").classList.remove("hidden");
+                    document.getElementById("modalBackdrop").classList.remove("hidden");
+                });
+        }
+
+        function closeModal() {
+            document.getElementById("modalContainer").classList.add("hidden");
+            document.getElementById("modalBackdrop").classList.add("hidden");
+        }
+    </script>
+}
