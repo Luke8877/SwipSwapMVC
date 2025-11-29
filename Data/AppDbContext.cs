@@ -18,7 +18,42 @@ namespace SwipSwapMVC.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-               
+
+            base.OnModelCreating(modelBuilder);
+
+            // Prevent cascade delete between User → Order
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Buyer)
+                .WithMany(u => u.Orders)
+                .HasForeignKey(o => o.BuyerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Cascade delete Products when Seller is deleted
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.User)
+                .WithMany(u => u.Products)
+                .HasForeignKey(p => p.SellerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // One Order → One Payment
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Payment)
+                .WithOne(p => p.Order)
+                .HasForeignKey<Payment>(p => p.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // ---------------------------
+            // SEED USERS
+            // ---------------------------
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    UserId = 1,
+                    Username = "Demo User",
+                    Email = "demo@example.com",
+                    PasswordHash = "Password123!"  // hashed or plain depending on your system
+                }
+            );
 
             // ---------------------------
             // SEED CATEGORIES

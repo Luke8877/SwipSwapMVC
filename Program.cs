@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SwipSwapMVC.Data;
+using SwipSwapMVC.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +16,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // For password hashing
-builder.Services.AddScoped<IPasswordHasher<SwipSwapAuth.Models.ApplicationUser>, PasswordHasher<SwipSwapAuth.Models.ApplicationUser>>();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
 
 // JWT configuration
 var jwtSettings = builder.Configuration.GetSection("Jwt");
@@ -56,16 +58,6 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-// ------------------------------------------------------------------
-// 🔥 IMPORTANT: Auto-create database + tables (no migrations needed)
-// ------------------------------------------------------------------
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.EnsureCreated();   // This creates DB + tables
-}
-// ------------------------------------------------------------------
 
 app.MapControllerRoute(
     name: "default",

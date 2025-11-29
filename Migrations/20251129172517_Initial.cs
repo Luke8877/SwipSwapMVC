@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace SwipSwapMVC.Migrations
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace swipswapmvc.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -149,6 +151,32 @@ namespace SwipSwapMVC.Migrations
                         principalTable: "Orders",
                         principalColumn: "OrderId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Electronics" },
+                    { 2, "Vehicles" },
+                    { 3, "Sports" },
+                    { 4, "Home & Garden" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "DateCreated", "Email", "PasswordHash", "PhoneNumber", "Username" },
+                values: new object[] { 1, new DateTime(2025, 11, 29, 10, 25, 17, 541, DateTimeKind.Local).AddTicks(8886), "demo@example.com", "Password123!", null, "Demo User" });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "ProductId", "CategoryId", "DatePosted", "Description", "ImageUrl", "IsSold", "Name", "Price", "SellerId" },
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2025, 11, 29, 10, 25, 17, 541, DateTimeKind.Local).AddTicks(9045), "256GB — Deep Purple — excellent condition", "/uploads/iphone14.jpg", false, "iPhone 14 Pro", 1199.99m, 1 },
+                    { 2, 1, new DateTime(2025, 11, 29, 10, 25, 17, 541, DateTimeKind.Local).AddTicks(9049), "RTX 3070 — 16GB RAM — 1TB SSD", "/uploads/laptop.jpg", false, "Gaming Laptop", 1599.00m, 1 },
+                    { 3, 3, new DateTime(2025, 11, 29, 10, 25, 17, 541, DateTimeKind.Local).AddTicks(9054), "Aluminum frame — good condition", "/uploads/bike.jpg", false, "Mountain Bike", 450.00m, 1 }
                 });
 
             migrationBuilder.CreateIndex(

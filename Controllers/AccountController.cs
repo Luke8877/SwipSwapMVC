@@ -108,7 +108,7 @@ namespace SwipSwapMVC.Controllers
             var token = GenerateJwtToken(user);
 
             ViewBag.Token = token;
-            return View("LoginSuccess");
+            return RedirectToAction("Index", "Dashboard");
         }
 
         // ---------------------------
