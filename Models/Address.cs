@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SwipSwapMarketplace.Models
+namespace SwipSwapMVC.Models
 {
     /// <summary>
     /// Represents a physical address associated with a user account.

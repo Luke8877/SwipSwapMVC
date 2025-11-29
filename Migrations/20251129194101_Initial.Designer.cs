@@ -9,11 +9,11 @@ using SwipSwapMVC.Data;
 
 #nullable disable
 
-namespace SwipSwapMVC.Migrations
+namespace swipswapmvc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251121013018_SeedInitialData")]
-    partial class SeedInitialData
+    [Migration("20251129194101_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace SwipSwapMVC.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Address", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Address", b =>
                 {
                     b.Property<int>("AddressId")
                         .ValueGeneratedOnAdd()
@@ -65,7 +65,7 @@ namespace SwipSwapMVC.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Category", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Category", b =>
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
@@ -104,7 +104,7 @@ namespace SwipSwapMVC.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Order", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Order", b =>
                 {
                     b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
@@ -139,7 +139,7 @@ namespace SwipSwapMVC.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Payment", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Payment", b =>
                 {
                     b.Property<int>("PaymentId")
                         .ValueGeneratedOnAdd()
@@ -175,7 +175,7 @@ namespace SwipSwapMVC.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Product", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -222,7 +222,7 @@ namespace SwipSwapMVC.Migrations
                         {
                             ProductId = 1,
                             CategoryId = 1,
-                            DatePosted = new DateTime(2025, 11, 20, 18, 30, 17, 985, DateTimeKind.Local).AddTicks(6895),
+                            DatePosted = new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(919),
                             Description = "256GB — Deep Purple — excellent condition",
                             ImageUrl = "/uploads/iphone14.jpg",
                             IsSold = false,
@@ -234,7 +234,7 @@ namespace SwipSwapMVC.Migrations
                         {
                             ProductId = 2,
                             CategoryId = 1,
-                            DatePosted = new DateTime(2025, 11, 20, 18, 30, 17, 985, DateTimeKind.Local).AddTicks(6899),
+                            DatePosted = new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(923),
                             Description = "RTX 3070 — 16GB RAM — 1TB SSD",
                             ImageUrl = "/uploads/laptop.jpg",
                             IsSold = false,
@@ -246,7 +246,7 @@ namespace SwipSwapMVC.Migrations
                         {
                             ProductId = 3,
                             CategoryId = 3,
-                            DatePosted = new DateTime(2025, 11, 20, 18, 30, 17, 985, DateTimeKind.Local).AddTicks(6903),
+                            DatePosted = new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(926),
                             Description = "Aluminum frame — good condition",
                             ImageUrl = "/uploads/bike.jpg",
                             IsSold = false,
@@ -256,7 +256,7 @@ namespace SwipSwapMVC.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.User", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -291,16 +291,16 @@ namespace SwipSwapMVC.Migrations
                         new
                         {
                             UserId = 1,
-                            DateCreated = new DateTime(2025, 11, 20, 18, 30, 17, 985, DateTimeKind.Local).AddTicks(6725),
+                            DateCreated = new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(775),
                             Email = "demo@example.com",
                             PasswordHash = "Password123!",
                             Username = "Demo User"
                         });
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Address", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Address", b =>
                 {
-                    b.HasOne("SwipSwapMarketplace.Models.User", "User")
+                    b.HasOne("SwipSwapMVC.Models.User", "User")
                         .WithMany("Addresses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -309,17 +309,17 @@ namespace SwipSwapMVC.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Order", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Order", b =>
                 {
-                    b.HasOne("SwipSwapMarketplace.Models.User", "Buyer")
+                    b.HasOne("SwipSwapMVC.Models.User", "Buyer")
                         .WithMany("Orders")
                         .HasForeignKey("BuyerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SwipSwapMarketplace.Models.Product", "Product")
+                    b.HasOne("SwipSwapMVC.Models.Product", "Product")
                         .WithOne("Order")
-                        .HasForeignKey("SwipSwapMarketplace.Models.Order", "ProductId")
+                        .HasForeignKey("SwipSwapMVC.Models.Order", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -328,26 +328,26 @@ namespace SwipSwapMVC.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Payment", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Payment", b =>
                 {
-                    b.HasOne("SwipSwapMarketplace.Models.Order", "Order")
+                    b.HasOne("SwipSwapMVC.Models.Order", "Order")
                         .WithOne("Payment")
-                        .HasForeignKey("SwipSwapMarketplace.Models.Payment", "OrderId")
+                        .HasForeignKey("SwipSwapMVC.Models.Payment", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Product", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Product", b =>
                 {
-                    b.HasOne("SwipSwapMarketplace.Models.Category", "Category")
+                    b.HasOne("SwipSwapMVC.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SwipSwapMarketplace.Models.User", "User")
+                    b.HasOne("SwipSwapMVC.Models.User", "User")
                         .WithMany("Products")
                         .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -358,22 +358,22 @@ namespace SwipSwapMVC.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Category", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Category", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Order", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Order", b =>
                 {
                     b.Navigation("Payment");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Product", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Product", b =>
                 {
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.User", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.User", b =>
                 {
                     b.Navigation("Addresses");
 

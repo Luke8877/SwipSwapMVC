@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SwipSwapMarketplace.Models;
 using SwipSwapMVC.Models;
 
 namespace SwipSwapMVC.Data
@@ -18,6 +17,7 @@ namespace SwipSwapMVC.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
 
             // Prevent cascade delete between User → Order

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SwipSwapMarketplace.Models
+namespace SwipSwapMVC.Models
 {
     /// <summary>
     /// Represents a purchase transaction between a buyer and seller.
