@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SwipSwapMVC.Models;
-using SwipSwapMVC.Models;
 
 namespace SwipSwapMVC.Data
 {

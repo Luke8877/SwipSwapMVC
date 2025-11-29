@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SwipSwapMVC.Data;
 using SwipSwapMVC.Models;
-using SwipSwapAuth.ViewModels;
+//using SwipSwapAuth.ViewModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -36,35 +36,31 @@ namespace SwipSwapMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public IActionResult Register(User model)
         {
-            if (!ModelState.IsValid)
+            if (model.Password != model.ConfirmPassword)
+            {
+                ModelState.AddModelError("", "Passwords do not match.");
                 return View(model);
+            }
 
-            // Check duplicate username
-            if (await _context.Users.AnyAsync(u => u.Username == model.Username))
+            if (_context.Users.Any(u => u.Username == model.Username))
             {
                 ModelState.AddModelError("Username", "Username already exists.");
                 return View(model);
             }
 
-            // Check duplicate email
-            if (await _context.Users.AnyAsync(u => u.Email == model.Email))
+            if (_context.Users.Any(u => u.Email == model.Email))
             {
                 ModelState.AddModelError("Email", "Email already registered.");
                 return View(model);
             }
 
-            var user = new User
-            {
-                Username = model.Username,
-                Email = model.Email
-            };
+            model.PasswordHash = _passwordHasher.HashPassword(model, model.Password);
+            model.DateCreated = DateTime.Now;
 
-            user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            _context.Users.Add(model);
+            _context.SaveChanges();
 
             return RedirectToAction("Login");
         }
@@ -79,37 +75,49 @@ namespace SwipSwapMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public IActionResult Login(User model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
+            // Treat the input field as either username OR email
+            string loginInput = model.Username;
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(u =>
-                    u.Username == model.UsernameOrEmail ||
-                    u.Email == model.UsernameOrEmail);
+            if (string.IsNullOrWhiteSpace(loginInput) || string.IsNullOrWhiteSpace(model.Password))
+            {
+                ModelState.AddModelError("", "Please enter both username/email and password.");
+                return View(model);
+            }
+
+            // Find user by username OR email (SYNC)
+            var user = _context.Users
+                .FirstOrDefault(u => u.Username == loginInput || u.Email == loginInput);
 
             if (user == null)
             {
-                ModelState.AddModelError("", "Invalid credentials.");
+                ModelState.AddModelError("", "Invalid username/email or password.");
                 return View(model);
             }
 
+            // Verify password (SYNC)
             var result = _passwordHasher.VerifyHashedPassword(
-                user, user.PasswordHash, model.Password);
+                user,
+                user.PasswordHash,
+                model.Password   // raw input password from the form
+            );
 
             if (result == PasswordVerificationResult.Failed)
             {
-                ModelState.AddModelError("", "Invalid credentials.");
+                ModelState.AddModelError("", "Invalid username/email or password.");
                 return View(model);
             }
 
-            // Create JWT
+            // Generate JWT token
             var token = GenerateJwtToken(user);
 
+            // Optional: store token (not required unless you're using JWT in UI)
             ViewBag.Token = token;
+
             return RedirectToAction("Index", "Dashboard");
         }
+
 
         // ---------------------------
         // FORGOT PASSWORD
@@ -121,24 +129,36 @@ namespace SwipSwapMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        public IActionResult ForgotPassword(User model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
+            var user = _context.Users.FirstOrDefault(u => u.Email == model.Email);
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
             if (user == null)
             {
                 ModelState.AddModelError("Email", "Email not found.");
                 return View(model);
             }
 
+            if (string.IsNullOrWhiteSpace(model.NewPassword))
+            {
+                ModelState.AddModelError("NewPassword", "Please enter a new password.");
+                return View(model);
+            }
+
+            if (model.NewPassword != model.ConfirmPassword)
+            {
+                ModelState.AddModelError("ConfirmPassword", "Passwords do not match.");
+                return View(model);
+            }
+
             user.PasswordHash = _passwordHasher.HashPassword(user, model.NewPassword);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             ViewBag.Message = "Password reset successfully.";
-            return View();
+            return View(new User());
         }
+
+
 
         // ---------------------------
         // GENERATE JWT TOKEN

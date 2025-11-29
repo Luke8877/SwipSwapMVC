@@ -167,16 +167,16 @@ namespace swipswapmvc.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "DateCreated", "Email", "PasswordHash", "PhoneNumber", "Username" },
-                values: new object[] { 1, new DateTime(2025, 11, 29, 10, 25, 17, 541, DateTimeKind.Local).AddTicks(8886), "demo@example.com", "Password123!", null, "Demo User" });
+                values: new object[] { 1, new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(775), "demo@example.com", "Password123!", null, "Demo User" });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "ProductId", "CategoryId", "DatePosted", "Description", "ImageUrl", "IsSold", "Name", "Price", "SellerId" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2025, 11, 29, 10, 25, 17, 541, DateTimeKind.Local).AddTicks(9045), "256GB — Deep Purple — excellent condition", "/uploads/iphone14.jpg", false, "iPhone 14 Pro", 1199.99m, 1 },
-                    { 2, 1, new DateTime(2025, 11, 29, 10, 25, 17, 541, DateTimeKind.Local).AddTicks(9049), "RTX 3070 — 16GB RAM — 1TB SSD", "/uploads/laptop.jpg", false, "Gaming Laptop", 1599.00m, 1 },
-                    { 3, 3, new DateTime(2025, 11, 29, 10, 25, 17, 541, DateTimeKind.Local).AddTicks(9054), "Aluminum frame — good condition", "/uploads/bike.jpg", false, "Mountain Bike", 450.00m, 1 }
+                    { 1, 1, new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(919), "256GB — Deep Purple — excellent condition", "/uploads/iphone14.jpg", false, "iPhone 14 Pro", 1199.99m, 1 },
+                    { 2, 1, new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(923), "RTX 3070 — 16GB RAM — 1TB SSD", "/uploads/laptop.jpg", false, "Gaming Laptop", 1599.00m, 1 },
+                    { 3, 3, new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(926), "Aluminum frame — good condition", "/uploads/bike.jpg", false, "Mountain Bike", 450.00m, 1 }
                 });
 
             migrationBuilder.CreateIndex(

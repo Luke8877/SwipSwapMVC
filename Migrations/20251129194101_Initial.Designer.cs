@@ -12,7 +12,7 @@ using SwipSwapMVC.Data;
 namespace swipswapmvc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251129172517_Initial")]
+    [Migration("20251129194101_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -222,7 +222,7 @@ namespace swipswapmvc.Migrations
                         {
                             ProductId = 1,
                             CategoryId = 1,
-                            DatePosted = new DateTime(2025, 11, 29, 10, 25, 17, 541, DateTimeKind.Local).AddTicks(9045),
+                            DatePosted = new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(919),
                             Description = "256GB — Deep Purple — excellent condition",
                             ImageUrl = "/uploads/iphone14.jpg",
                             IsSold = false,
@@ -234,7 +234,7 @@ namespace swipswapmvc.Migrations
                         {
                             ProductId = 2,
                             CategoryId = 1,
-                            DatePosted = new DateTime(2025, 11, 29, 10, 25, 17, 541, DateTimeKind.Local).AddTicks(9049),
+                            DatePosted = new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(923),
                             Description = "RTX 3070 — 16GB RAM — 1TB SSD",
                             ImageUrl = "/uploads/laptop.jpg",
                             IsSold = false,
@@ -246,7 +246,7 @@ namespace swipswapmvc.Migrations
                         {
                             ProductId = 3,
                             CategoryId = 3,
-                            DatePosted = new DateTime(2025, 11, 29, 10, 25, 17, 541, DateTimeKind.Local).AddTicks(9054),
+                            DatePosted = new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(926),
                             Description = "Aluminum frame — good condition",
                             ImageUrl = "/uploads/bike.jpg",
                             IsSold = false,
@@ -291,7 +291,7 @@ namespace swipswapmvc.Migrations
                         new
                         {
                             UserId = 1,
-                            DateCreated = new DateTime(2025, 11, 29, 10, 25, 17, 541, DateTimeKind.Local).AddTicks(8886),
+                            DateCreated = new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(775),
                             Email = "demo@example.com",
                             PasswordHash = "Password123!",
                             Username = "Demo User"

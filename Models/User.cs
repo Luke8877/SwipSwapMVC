@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using SwipSwapMVC.Models;
 
 namespace SwipSwapMVC.Models
@@ -31,5 +32,15 @@ namespace SwipSwapMVC.Models
         public ICollection<Product>? Products { get; set; }   // Listings created by the user 
         public ICollection<Order>? Orders { get; set; }       // Orders placed by the user 
         public ICollection<Address>? Addresses { get; set; }  // Saved addresses linked to the user
+
+        [NotMapped]
+        public string Password { get; set; } = string.Empty;
+
+        [NotMapped]
+        public string ConfirmPassword { get; set; } = string.Empty;
+
+        [NotMapped]
+        public string NewPassword { get; set; } = string.Empty;
+
     }
 }
