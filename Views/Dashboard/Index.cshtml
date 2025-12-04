@@ -1,5 +1,4 @@
-﻿@using SwipSwapMVC.Models;
-
+﻿@using SwipSwapMVC.Models
 @model List<Product>
 
 @{
@@ -21,24 +20,12 @@
 
     <!-- Category Buttons -->
     <div class="flex flex-wrap gap-3">
-        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-            Electronics
-        </button>
-        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-            Vehicles
-        </button>
-        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-            Clothing
-        </button>
-        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-            Home Goods
-        </button>
-        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-            Sports
-        </button>
-        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-            Other
-        </button>
+        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Electronics</button>
+        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Vehicles</button>
+        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Clothing</button>
+        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Home Goods</button>
+        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Sports</button>
+        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Other</button>
     </div>
 
     <!-- Product Grid -->
@@ -51,39 +38,73 @@
 
 </div>
 
-<!--Modal Backdrop-->
-<div id="modalBackdrop" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
+@section Modals {
+    @foreach (var product in Model)
+    {
+        <div id="product-@product.ProductId" class="product-modal">
+            <div class="product-modal-content">
+                <a href="#" class="product-modal-close">✕</a>
 
-<!-- Modal Container -->
-<div id="modalContainer"
-     class="fixed inset-0 flex justify-center items-center hidden z-50">
+                <img src="@product.ImageUrl" class="w-full rounded mb-3" />
+                <h2 class="text-xl font-bold mb-2">@product.Name</h2>
+                <p class="mb-3">@product.Description</p>
 
-    <!-- Modal Content -->
-    <div id="modalContent"
-         class="bg-white rounded-lg shadow-xl w-full max-w-xl p-6 max-h-[90vh] overflow-y-auto">
-    </div>
-
-</div>
-
-<!-- Included Javascript for opening and closing modal when product card is clicked-->
-@section Scripts {
-    <script>
-        function openModal(productId) {
-            fetch(`/Dashboard/ProductDetails?id=${productId}`)
-                .then(response => response.text())
-                .then(html => {
-                    // Insert HTML into modal
-                    document.getElementById("modalContainer").innerHTML = html;
-
-                    // Show modal & backdrop
-                    document.getElementById("modalContainer").classList.remove("hidden");
-                    document.getElementById("modalBackdrop").classList.remove("hidden");
-                });
-        }
-
-        function closeModal() {
-            document.getElementById("modalContainer").classList.add("hidden");
-            document.getElementById("modalBackdrop").classList.add("hidden");
-        }
-    </script>
+                <p class="font-semibold text-green-700">
+                    @product.Price.ToString("C")
+                </p>
+                <div class="mt-6 flex justify-end">
+                    <a href="/Dashboard/Purchase/@product.ProductId"
+                       class="px-6 py-3 bg-green-700 text-white rounded-lg shadow hover:bg-green-800 transition">
+                        Purchase
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
 }
+
+<style>
+    /* Fullscreen overlay */
+    .product-modal {
+        opacity: 0;
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        overflow-y: auto;
+        z-index: 999;
+        transition: opacity 0.2s ease;
+    }
+
+        .product-modal:target {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+    .product-modal-content {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 4rem auto;
+        width: 90%;
+        max-width: 600px;
+        max-height: calc(100vh - 8rem);
+        overflow-y: auto;
+        position: relative;
+    }
+
+        .product-modal-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+    .product-modal-close {
+        position: absolute;
+        top: 0.75rem;
+        right: 1rem;
+        font-size: 1.5rem;
+        color: #444;
+        text-decoration: none;
+    }
+</style>
