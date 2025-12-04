@@ -1,5 +1,4 @@
-﻿﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -17,7 +16,7 @@
     <!-- NAVBAR -->
     <header class="bg-white border-b shadow-sm">
         <nav class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-            <a class="text-xl font-semibold text-green-700" asp-area="" asp-controller="Home" asp-action="Index">
+            <a class="text-xl font-semibold text-green-700" asp-controller="Home" asp-action="Index">
                 SwipSwapMVC
             </a>
 
@@ -33,6 +32,9 @@
     <main class="max-w-7xl mx-auto px-4 py-6">
         @RenderBody()
     </main>
+
+    <!-- GLOBAL MODALS RENDER HERE -->
+    @RenderSection("Modals", required: false)
 
     <!-- FOOTER -->
     <footer class="border-t py-4 text-center text-gray-500">
