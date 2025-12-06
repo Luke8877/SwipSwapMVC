@@ -1,6 +1,17 @@
 ﻿@model SwipSwapMVC.Models.User
 
-<div class="auth-wrapper">
+@{
+    Layout = "_AuthLayout";
+}
+
+<div class="auth-wrapper flex flex-column">
+    <!-- Title visible on ALL auth pages -->
+    <div class="text-center mt-5 mb-4">
+        <h1 class="display-1 fw-bold" style="color:#16A34A;">
+            SwipSwap Marketplace
+        </h1>
+    </div>
+
     <div class="auth-card">
         <h2 class="auth-title">Login</h2>
 
