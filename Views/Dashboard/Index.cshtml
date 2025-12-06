@@ -3,6 +3,7 @@
 
 @{
     Layout = "_Layout";
+    
 }
 
 <div class="space-y-6">
@@ -20,12 +21,43 @@
 
     <!-- Category Buttons -->
     <div class="flex flex-wrap gap-3">
-        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Electronics</button>
-        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Vehicles</button>
-        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Clothing</button>
-        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Home Goods</button>
-        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Sports</button>
-        <button class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Other</button>
+        <a 
+            asp-action="Index" 
+            asp-route-activeCategory = "Electronics"
+            class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Electronics
+        </a>
+        <a asp-action="Index"
+           asp-route-activeCategory="Clothing"
+           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+           Clothing
+        </a>
+        <a 
+            asp-action="Index" 
+            asp-route-activeCategory = "Home Goods"
+            class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Home Goods
+        </a>
+        <a asp-action="Index"
+           asp-route-activeCategory="Sports"
+           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Sports
+        </a>
+        <a asp-action="Index"
+           asp-route-activeCategory="Books"
+           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Books
+        </a>
+        <a asp-action="Index"
+           asp-route-activeCategory="Other"
+           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Other
+        </a>
+        <a asp-action="Index"
+           asp-route-activeCategory="all"
+           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            All
+        </a>
     </div>
 
     <!-- Product Grid -->

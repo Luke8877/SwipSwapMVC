@@ -159,24 +159,26 @@ namespace swipswapmvc.Migrations
                 values: new object[,]
                 {
                     { 1, "Electronics" },
-                    { 2, "Vehicles" },
-                    { 3, "Sports" },
-                    { 4, "Home & Garden" }
+                    { 2, "Clothing" },
+                    { 3, "Home & Garden" },
+                    { 4, "Sports" },
+                    { 5, "Health and Beauty" },
+                    { 6, "Books" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "DateCreated", "Email", "PasswordHash", "PhoneNumber", "Username" },
-                values: new object[] { 1, new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(775), "demo@example.com", "Password123!", null, "Demo User" });
+                values: new object[] { 1, new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4320), "demo@example.com", "Password123!", null, "Demo User" });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "ProductId", "CategoryId", "DatePosted", "Description", "ImageUrl", "IsSold", "Name", "Price", "SellerId" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(919), "256GB — Deep Purple — excellent condition", "/uploads/iphone14.jpg", false, "iPhone 14 Pro", 1199.99m, 1 },
-                    { 2, 1, new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(923), "RTX 3070 — 16GB RAM — 1TB SSD", "/uploads/laptop.jpg", false, "Gaming Laptop", 1599.00m, 1 },
-                    { 3, 3, new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(926), "Aluminum frame — good condition", "/uploads/bike.jpg", false, "Mountain Bike", 450.00m, 1 }
+                    { 1, 1, new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4503), "256GB — Deep Purple — excellent condition", "/uploads/iphone14.jpg", false, "iPhone 14 Pro", 1199.99m, 1 },
+                    { 2, 1, new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4507), "RTX 3070 — 16GB RAM — 1TB SSD", "/uploads/laptop.jpg", false, "Gaming Laptop", 1599.00m, 1 },
+                    { 3, 3, new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4510), "Aluminum frame — good condition", "/uploads/bike.jpg", false, "Mountain Bike", 450.00m, 1 }
                 });
 
             migrationBuilder.CreateIndex(
