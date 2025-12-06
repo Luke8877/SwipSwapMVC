@@ -12,7 +12,7 @@ using SwipSwapMVC.Data;
 namespace swipswapmvc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251129194101_Initial")]
+    [Migration("20251206170029_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -90,17 +90,27 @@ namespace swipswapmvc.Migrations
                         new
                         {
                             CategoryId = 2,
-                            Name = "Vehicles"
+                            Name = "Clothing"
                         },
                         new
                         {
                             CategoryId = 3,
-                            Name = "Sports"
+                            Name = "Home & Garden"
                         },
                         new
                         {
                             CategoryId = 4,
-                            Name = "Home & Garden"
+                            Name = "Sports"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            Name = "Health and Beauty"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            Name = "Books"
                         });
                 });
 
@@ -222,7 +232,7 @@ namespace swipswapmvc.Migrations
                         {
                             ProductId = 1,
                             CategoryId = 1,
-                            DatePosted = new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(919),
+                            DatePosted = new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4503),
                             Description = "256GB — Deep Purple — excellent condition",
                             ImageUrl = "/uploads/iphone14.jpg",
                             IsSold = false,
@@ -234,7 +244,7 @@ namespace swipswapmvc.Migrations
                         {
                             ProductId = 2,
                             CategoryId = 1,
-                            DatePosted = new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(923),
+                            DatePosted = new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4507),
                             Description = "RTX 3070 — 16GB RAM — 1TB SSD",
                             ImageUrl = "/uploads/laptop.jpg",
                             IsSold = false,
@@ -246,7 +256,7 @@ namespace swipswapmvc.Migrations
                         {
                             ProductId = 3,
                             CategoryId = 3,
-                            DatePosted = new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(926),
+                            DatePosted = new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4510),
                             Description = "Aluminum frame — good condition",
                             ImageUrl = "/uploads/bike.jpg",
                             IsSold = false,
@@ -291,7 +301,7 @@ namespace swipswapmvc.Migrations
                         new
                         {
                             UserId = 1,
-                            DateCreated = new DateTime(2025, 11, 29, 12, 41, 1, 150, DateTimeKind.Local).AddTicks(775),
+                            DateCreated = new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4320),
                             Email = "demo@example.com",
                             PasswordHash = "Password123!",
                             Username = "Demo User"

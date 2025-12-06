@@ -59,9 +59,11 @@ namespace SwipSwapMVC.Data
             // ---------------------------
             modelBuilder.Entity<Category>().HasData(
                 new Category { CategoryId = 1, Name = "Electronics" },
-                new Category { CategoryId = 2, Name = "Vehicles" },
-                new Category { CategoryId = 3, Name = "Sports" },
-                new Category { CategoryId = 4, Name = "Home & Garden" }
+                new Category { CategoryId = 2, Name = "Clothing" },
+                new Category { CategoryId = 3, Name = "Home & Garden" },
+                new Category { CategoryId = 4, Name = "Sports" },
+                new Category { CategoryId = 5, Name = "Health and Beauty" },
+                new Category { CategoryId = 6, Name = "Books" }
             );
 
             // ---------------------------
