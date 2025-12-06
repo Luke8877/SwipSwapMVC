@@ -12,9 +12,10 @@ namespace swipswapmvc.Controllers
         {
             _context = context;
         }
-        public IActionResult Index(string activeCategory = "all")
+        public IActionResult Index(string activeCategory = "all", string search = "")
         {
             ViewBag.ActiveCategory = activeCategory; // the current product category
+            ViewBag.Search = search; // the search string in the search bar
 
             IQueryable<Product> products = _context.Products.Include(p => p.Category); //returns all products joined with category
             
@@ -24,6 +25,12 @@ namespace swipswapmvc.Controllers
                 products = products.Where(
                     p => p.Category.Name == activeCategory);
             }
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                products = products.Where(
+                    p => p.Name.Contains(search));
+            } 
            
             return View(products.ToList());
         }
