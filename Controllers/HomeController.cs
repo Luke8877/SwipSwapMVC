@@ -18,7 +18,7 @@ namespace SwipSwapMVC.Controllers
             return RedirectToAction("Login","Account");
         }
 
-        public IActionResult Privacy()
+        public IActionResult Logout()
         {
             return View();
         }

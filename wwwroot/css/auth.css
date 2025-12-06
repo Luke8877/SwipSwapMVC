@@ -1,10 +1,10 @@
-﻿/* Full page center alignment + gradient */
+﻿/* Full page center alignment + background */
 .auth-wrapper {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #A06CD5, #CDB4DB, #E9D8FD);
+    background: #F6EFD8;
     background-size: 400% 400%;
     animation: gradientFlow 12s ease infinite;
     padding: 20px;
@@ -54,33 +54,33 @@
     text-align: center;
     font-weight: 700;
     margin-bottom: 25px;
-    color: #5A189A;
+    color: #166534; /* dark green */
 }
 
 /* Form labels */
 .form-label, label {
     font-weight: 600;
-    color: #5C4A72;
+    color: #14532D; /* darker green */
 }
 
 /* Inputs */
 .form-control {
     border-radius: 10px;
     padding: 10px 12px;
-    border: 1px solid #d0bade;
+    border: 1px solid #bbdfc4; /* soft green border */
 }
 
-/* Mauve Primary Button */
+/* Green Primary Button */
 .btn-primary {
-    background-color: #7B2CBF !important;
-    border-color: #7B2CBF !important;
+    background-color: #16A34A !important; /* medium green */
+    border-color: #16A34A !important;
     padding: 10px 0;
     font-weight: 600;
     border-radius: 10px;
 }
 
-/* Forgot link / text */
+/* Links */
 a {
-    color: #5A189A !important;
+    color: #166534 !important; /* dark green */
     font-weight: 500;
 }
