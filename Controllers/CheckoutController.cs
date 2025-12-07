@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SwipSwapMVC.Data;
-using SwipSwapMarketplace.Models;
 using Stripe.Checkout;
+using SwipSwapMVC.Data;
+using SwipSwapMVC.Models;
+using SwipSwapMVC.Models.ViewModels;
+using static SwipSwapMVC.Models.ViewModels.CheckoutSuccessViewModel;
 
 namespace SwipSwapMVC.Controllers
 {
@@ -23,8 +25,20 @@ namespace SwipSwapMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int productId)
         {
-            // TODO: Replace with authenticated user ID when identity is implemented.
-            int buyerId = 1;
+            int buyerId;
+    
+            var idClaim = User?.FindFirst("id")?.Value;
+
+            if (!string.IsNullOrEmpty(idClaim))
+            {
+                buyerId = int.Parse(idClaim);
+            }
+            else
+            {
+               
+                buyerId = 1;
+            }
+
 
             // Fetch the product being purchased.
             var product = await _db.Products
@@ -113,9 +127,58 @@ namespace SwipSwapMVC.Controllers
         /// Displays confirmation after Stripe completes payment.
         /// Actual order finalization happens with webhook.
         /// </summary>
-        public IActionResult Success(int orderId)
+        public async Task<IActionResult> Success(int orderId)
         {
-            return View(orderId);
+            var order = await _db.Orders
+                .Include(o => o.Product)
+                .ThenInclude(p => p.Seller)
+                .Include(o => o.Payment)
+                .FirstOrDefaultAsync(o => o.OrderId == orderId);
+
+            if (order == null)
+                return NotFound("Order not found");
+
+            // Mark as Paid & Sold
+            order.Status = OrderStatus.Paid;
+            order.Product.IsSold = true;
+            order.Product.IsArchived = false;
+            await _db.SaveChangesAsync();
+
+            // Fetch past orders AFTER saving this one
+            var pastOrders = await _db.Orders
+                .Include(o => o.Product)
+                .Include(o => o.Payment)
+                .Where(o => o.BuyerId == order.BuyerId && o.Status == OrderStatus.Paid)
+                .OrderByDescending(o => o.CreatedAt)
+                .Take(10)
+                .ToListAsync();
+
+            // Build the ViewModel INCLUDING Past Purchases
+            var vm = new CheckoutSuccessViewModel
+            {
+                OrderId = order.OrderId,
+                PurchaseDate = order.CreatedAt,
+                AmountPaid = order.Payment?.Amount ?? order.Product.Price,
+                PaymentStatus = order.Payment?.PaymentStatus ?? "Paid",
+                ItemName = order.Product.Name,
+                Description = order.Product.Description,
+                ImageUrl = order.Product.ImageUrl,
+                SellerName = order.Product.Seller?.Username ?? "Unknown Seller",
+                SellerPhone = order.Product.SellerPhone,
+                Street = order.Product.PickupAddress,
+                Latitude = order.Product.Latitude,
+                Longitude = order.Product.Longitude,
+                PastPurchases = pastOrders.Select(o => new PastPurchaseItem
+                {
+                    OrderId = o.OrderId,
+                    ItemName = o.Product?.Name ?? "Unknown",
+                    AmountPaid = o.Payment?.Amount ?? o.Product?.Price ?? 0,
+                    PurchaseDate = o.CreatedAt,
+                    Status = "Paid"
+                }).ToList()
+            };
+
+            return View(vm);
         }
 
         /// <summary>

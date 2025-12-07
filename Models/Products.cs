@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SwipSwapMVC.Models;
 
-namespace SwipSwapMarketplace.Models
+namespace SwipSwapMVC.Models
 {
     public class Product
     {
@@ -38,6 +39,11 @@ namespace SwipSwapMarketplace.Models
 
         public User? Seller { get; set; }   
 
-        public Order? Order { get; set; }  
+        public Order? Order { get; set; }
+
+        public string? PickupAddress { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public string? SellerPhone { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Stripe;
 using Stripe.Checkout;
 using SwipSwapMVC.Data;
-using SwipSwapMarketplace.Models;
+using SwipSwapMVC.Models;
 
 namespace SwipSwapMVC.Controllers
 {

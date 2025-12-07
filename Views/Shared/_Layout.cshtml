@@ -3,37 +3,42 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SwipSwapMVC</title>
-
-    <!-- Tailwind -->
+    <title>@ViewData["Title"] - SwipSwap Marketplace</title>
+    @RenderSection("Styles", required: false)
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-gray-50 text-gray-900" style="background-color: #F6EFD8">
 
     <!-- NAVBAR -->
-    <header class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <a href="/" class="text-2xl font-bold text-green-600 hover:text-green-700">
-                SwipSwapMVC
+    <header class="border-b shadow-sm">
+        <nav class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a class="text-xl font-semibold text-green-700"
+               asp-controller="Home" asp-action="Index">
+                SwipSwap Marketplace
             </a>
 
-            <nav class="flex space-x-8 text-gray-700">
-                <a href="/" class="hover:text-black">Home</a>
-                <a href="/Home/Privacy" class="hover:text-black">Privacy</a>
-            </nav>
-        </div>
+            <div class="space-x-6 text-gray-700">
+                <a asp-controller="Home" asp-action="Index" class="hover:text-green-700">Home</a>
+                <a asp-controller="MyListings" asp-action="Index" class="hover:text-green-700">My Listings</a>
+                <a asp-controller="Dashboard" asp-action="Index" class="hover:text-green-700">Dashboard</a>
+                <a asp-controller="Account" asp-action="Login" class="hover:text-green-700">Logout</a>
+            </div>
+        </nav>
     </header>
-
 
     <!-- MAIN CONTENT -->
     <main class="max-w-7xl mx-auto px-4 py-6">
         @RenderBody()
     </main>
 
+    <!-- GLOBAL MODALS RENDER HERE -->
+    @RenderSection("Modals", required: false)
+
     <!-- FOOTER -->
     <footer class="border-t py-4 text-center text-gray-500">
-        &copy; 2025 - SwipSwapMVC -
+        &copy; 2025 - SwipSwap Marketplace -
         <a asp-controller="Home" asp-action="Privacy" class="text-green-700 hover:underline">Privacy</a>
     </footer>
 

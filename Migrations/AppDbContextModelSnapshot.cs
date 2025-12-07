@@ -8,7 +8,7 @@ using SwipSwapMVC.Data;
 
 #nullable disable
 
-namespace SwipSwapMVC.Migrations
+namespace swipswapmvc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace SwipSwapMVC.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Address", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Address", b =>
                 {
                     b.Property<int>("AddressId")
                         .ValueGeneratedOnAdd()
@@ -62,7 +62,7 @@ namespace SwipSwapMVC.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Category", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Category", b =>
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
@@ -82,11 +82,36 @@ namespace SwipSwapMVC.Migrations
                         new
                         {
                             CategoryId = 1,
-                            Name = "General"
+                            Name = "Electronics"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            Name = "Clothing"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            Name = "Home & Garden"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            Name = "Sports"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            Name = "Health and Beauty"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            Name = "Books"
                         });
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Order", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Order", b =>
                 {
                     b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
@@ -115,7 +140,7 @@ namespace SwipSwapMVC.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Payment", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Payment", b =>
                 {
                     b.Property<int>("PaymentId")
                         .ValueGeneratedOnAdd()
@@ -157,7 +182,7 @@ namespace SwipSwapMVC.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Product", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -183,8 +208,17 @@ namespace SwipSwapMVC.Migrations
                     b.Property<bool>("IsSold")
                         .HasColumnType("bit");
 
+                    b.Property<double?>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("Longitude")
+                        .HasColumnType("float");
+
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PickupAddress")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
@@ -193,6 +227,9 @@ namespace SwipSwapMVC.Migrations
 
                     b.Property<int>("SellerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SellerPhone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductId");
 
@@ -207,17 +244,56 @@ namespace SwipSwapMVC.Migrations
                         {
                             ProductId = 1,
                             CategoryId = 1,
-                            DatePosted = new DateTime(2025, 12, 7, 3, 7, 8, 689, DateTimeKind.Utc).AddTicks(5298),
-                            Description = "Seeded test product",
+                            DatePosted = new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9278),
+                            Description = "256GB — Deep Purple — excellent condition",
+                            ImageUrl = "/uploads/iphone14.jpg",
                             IsArchived = false,
                             IsSold = false,
-                            Name = "Test Product",
-                            Price = 10.00m,
-                            SellerId = 1
+                            Latitude = 53.523200000000003,
+                            Longitude = -113.6247,
+                            Name = "iPhone 14 Pro",
+                            PickupAddress = "8882 170 St NW, Edmonton, AB",
+                            Price = 1199.99m,
+                            SellerId = 1,
+                            SellerPhone = "780-111-1111"
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            CategoryId = 1,
+                            DatePosted = new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9294),
+                            Description = "RTX 3070 — 16GB RAM — 1TB SSD",
+                            ImageUrl = "/uploads/laptop.jpg",
+                            IsArchived = false,
+                            IsSold = false,
+                            Latitude = 53.488999999999997,
+                            Longitude = -113.4987,
+                            Name = "Gaming Laptop",
+                            PickupAddress = "7005 Gateway Blvd NW, Edmonton, AB",
+                            Price = 1599.00m,
+                            SellerId = 1,
+                            SellerPhone = "780-222-2222"
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            CategoryId = 4,
+                            DatePosted = new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9308),
+                            Description = "Aluminum frame — good condition",
+                            ImageUrl = "/uploads/bike.jpg",
+                            IsArchived = false,
+                            IsSold = false,
+                            Latitude = 52.293599999999998,
+                            Longitude = -113.81870000000001,
+                            Name = "Mountain Bike",
+                            PickupAddress = "1000 Taylor Dr, Red Deer, AB",
+                            Price = 450.00m,
+                            SellerId = 1,
+                            SellerPhone = "780-333-3333"
                         });
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.User", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -255,18 +331,18 @@ namespace SwipSwapMVC.Migrations
                         new
                         {
                             UserId = 1,
-                            DateCreated = new DateTime(2025, 12, 7, 3, 7, 8, 689, DateTimeKind.Utc).AddTicks(5149),
-                            Email = "test@test.com",
+                            DateCreated = new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(8771),
+                            Email = "demo@example.com",
                             IsActive = true,
-                            PasswordHash = "fakehash",
+                            PasswordHash = "Password123!",
                             PhoneNumber = "0000000000",
-                            Username = "TestUser"
+                            Username = "Demo User"
                         });
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Address", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Address", b =>
                 {
-                    b.HasOne("SwipSwapMarketplace.Models.User", "User")
+                    b.HasOne("SwipSwapMVC.Models.User", "User")
                         .WithMany("Addresses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -275,16 +351,16 @@ namespace SwipSwapMVC.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Order", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Order", b =>
                 {
-                    b.HasOne("SwipSwapMarketplace.Models.User", "Buyer")
+                    b.HasOne("SwipSwapMVC.Models.User", "Buyer")
                         .WithMany("Orders")
                         .HasForeignKey("BuyerId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SwipSwapMarketplace.Models.Product", "Product")
+                    b.HasOne("SwipSwapMVC.Models.Product", "Product")
                         .WithOne("Order")
-                        .HasForeignKey("SwipSwapMarketplace.Models.Order", "ProductId")
+                        .HasForeignKey("SwipSwapMVC.Models.Order", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -293,26 +369,26 @@ namespace SwipSwapMVC.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Payment", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Payment", b =>
                 {
-                    b.HasOne("SwipSwapMarketplace.Models.Order", "Order")
+                    b.HasOne("SwipSwapMVC.Models.Order", "Order")
                         .WithOne("Payment")
-                        .HasForeignKey("SwipSwapMarketplace.Models.Payment", "OrderId")
+                        .HasForeignKey("SwipSwapMVC.Models.Payment", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Product", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Product", b =>
                 {
-                    b.HasOne("SwipSwapMarketplace.Models.Category", "Category")
+                    b.HasOne("SwipSwapMVC.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SwipSwapMarketplace.Models.User", "Seller")
+                    b.HasOne("SwipSwapMVC.Models.User", "Seller")
                         .WithMany("Products")
                         .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -323,22 +399,22 @@ namespace SwipSwapMVC.Migrations
                     b.Navigation("Seller");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Category", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Category", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Order", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Order", b =>
                 {
                     b.Navigation("Payment");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.Product", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.Product", b =>
                 {
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("SwipSwapMarketplace.Models.User", b =>
+            modelBuilder.Entity("SwipSwapMVC.Models.User", b =>
                 {
                     b.Navigation("Addresses");
 
