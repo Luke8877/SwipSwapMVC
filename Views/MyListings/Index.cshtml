@@ -44,7 +44,19 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
                 @foreach (var product in Model.Products)
                 {
-                    <div class="border rounded p-4 shadow cursor-pointer bg-white" onclick="openEditModal(@product.ProductId)">
+                <div class="
+                        product-card  
+                        bg-white !bg-white
+                        dark:bg-gray-800 dark:!bg-gray-800 dark:bg-opacity-100
+                        text-gray-900 dark:text-gray-100
+                        shadow-md dark:shadow-lg
+                        rounded-xl p-4
+                        border border-gray-200 dark:border-gray-700
+                        hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-2xl
+                        transition-all"
+            
+                        onclick="openEditModal(@product.ProductId)"
+                >
                         <img src="@product.ImageUrl" class="w-full h-48 object-cover rounded mb-2" />
                         <h3 class="font-bold">@product.Name</h3>
                         <p class="text-green-700 font-semibold">@product.Price.ToString("C")</p>
