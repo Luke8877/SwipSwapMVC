@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36705.20 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwipSwapAuth", "SwipSwapAuth.csproj", "{98CD3C56-36B0-4617-C43A-F918D749FD35}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98CD3C56-36B0-4617-C43A-F918D749FD35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98CD3C56-36B0-4617-C43A-F918D749FD35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98CD3C56-36B0-4617-C43A-F918D749FD35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98CD3C56-36B0-4617-C43A-F918D749FD35}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3CDEFF84-3A2B-49CF-83C8-9F21302306F6}
+	EndGlobalSection
+EndGlobal

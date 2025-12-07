@@ -1,0 +1,139 @@
+﻿@using SwipSwapMVC.Models
+@model List<Product>
+
+@{
+    Layout = "_Layout";
+    
+}
+
+<div class="space-y-6">
+
+    <!-- Search Bar -->
+    <form asp-action="Index" method="get"  class="flex items-center gap-2">
+        <input 
+               name="search"
+               value="@ViewBag.Search"
+               type="text"
+               placeholder="Search for products..."
+               class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-green-600 focus:outline-none" />
+
+        <button class="px-6 py-2 bg-green-700 text-white rounded-lg shadow hover:bg-green-800 transition">
+            Search
+        </button>
+    </form>
+
+    <!-- Category Buttons -->
+    <div class="flex flex-wrap gap-3" style="background: ">
+        <a 
+            asp-action="Index" 
+            asp-route-activeCategory = "Electronics"
+            class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Electronics
+        </a>
+        <a asp-action="Index"
+           asp-route-activeCategory="Clothing"
+           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+           Clothing
+        </a>
+        <a 
+            asp-action="Index" 
+            asp-route-activeCategory = "Home Goods"
+            class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Home Goods
+        </a>
+        <a asp-action="Index"
+           asp-route-activeCategory="Sports"
+           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Sports
+        </a>
+        <a asp-action="Index"
+           asp-route-activeCategory="Books"
+           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Books
+        </a>
+        <a asp-action="Index"
+           asp-route-activeCategory="Other"
+           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            Other
+        </a>
+        <a asp-action="Index"
+           asp-route-activeCategory="all"
+           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
+            All
+        </a>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        @foreach (var product in Model)
+        {
+            @await Html.PartialAsync("_ProductCard", product)
+        }
+    </div>
+
+</div>
+
+@section Modals {
+    @foreach (var product in Model)
+    {
+        <div id="product-@product.ProductId" class="product-modal">
+            <div class="product-modal-content">
+                <a href="#" class="product-modal-close">✕</a>
+
+                <img src="@product.ImageUrl" class="w-full rounded mb-3" />
+                <h2 class="text-xl font-bold mb-2">@product.Name</h2>
+                <p class="mb-3">@product.Description</p>
+
+                <p class="font-semibold text-green-700">
+                    @product.Price.ToString("C")
+                </p>
+                <div class="mt-6 flex justify-end">
+                    <a href="/Dashboard/Purchase/@product.ProductId"
+                       class="px-6 py-3 bg-green-700 text-white rounded-lg shadow hover:bg-green-800 transition">
+                        Purchase
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<style>
+    .product-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 1000;
+    }
+
+        .product-modal:target {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+    .product-modal-content {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 1000px;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+    }
+
+    .product-modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1.25rem;
+        font-size: 1.5rem;
+        text-decoration: none;
+        color: #333;
+    }
+</style>
