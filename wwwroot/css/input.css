@@ -2,9 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-namespace swipswapmvc.wwwroot.css
-{
-    public class input
-    {
-    }
-}

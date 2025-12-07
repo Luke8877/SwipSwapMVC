@@ -76,7 +76,7 @@
 @section Modals {
     @foreach (var product in Model)
     {
-        <div id="product-@product.ProductId" class="product-modal">
+        <div id="product-@product.ProductId" class="product-modal dark:bg-gray-800 border dark:border-gray-700">
             <div class="product-modal-content relative pt-10 z-10">
                 <a href="#" class="product-modal-close absolute top-4 right-4 text-2xl font-bold z-50">✕</a>
 
@@ -99,48 +99,3 @@
     }
 }
 
-<style>
-    /* Fullscreen overlay */
-    .product-modal {
-        opacity: 0;
-        pointer-events: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.5);
-        overflow-y: auto;
-        z-index: 999;
-        transition: opacity 0.2s ease;
-    }
-
-        .product-modal:target {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-    .product-modal-content {
-        background: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin: 4rem auto;
-        width: 90%;
-        max-width: 600px;
-        max-height: calc(100vh - 8rem);
-        overflow-y: auto;
-        position: relative;
-    }
-
-        .product-modal-content img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-    .product-modal-close {
-        position: absolute;
-        top: 0.75rem;
-        right: 1rem;
-        font-size: 1.5rem;
-        color: #444;
-        text-decoration: none;
-    }
-</style>

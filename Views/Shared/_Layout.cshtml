@@ -7,24 +7,49 @@
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!--Add a dark mode class if the dark theme is toggled-->
+    <script>
+        if (localStorage.theme === 'dark') {
+          document.documentElement.classList.add('dark')
+        }
+    </script>
 </head>
 
-<body class="bg-gray-50 text-gray-900 min-h-screen" style="background-color: #F6EFD8">
+<body class="min-h-screen transition-colors duration-300 bg-[#F6EFD8] dark:bg-gray-900 text-gray-800">
 
     <!-- NAVBAR -->
-    <header class="border-b shadow-sm">
+    <header class="border-b bg-white dark:bg-gray-800 shadow-sm transition-colors duration-300">
         <nav class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-            <a class="text-xl font-semibold text-green-700" asp-controller="Home" asp-action="Index">
+
+            <a class="text-xl font-bold text-green-700 dark:text-green-400">
                 SwipSwap Marketplace
             </a>
 
-            <div class="space-x-6 text-gray-700">
-                <a asp-controller="MyListings" asp-action="Index" class="hover:text-green-700">My Listings</a>
-                <a asp-controller="Dashboard" asp-action="Index" class="hover:text-green-700">Dashboard</a>
-                <a asp-controller="Account" asp-action="Login" class="hover:text-green-700">Logout</a>
+            <div class="space-x-6">
+                <a asp-controller="MyListings" asp-action="Index"
+                   class="hover:text-green-700 dark:hover:text-green-400">
+                    My Listings
+                </a>
+
+                <a asp-controller="Dashboard" asp-action="Index"
+                   class="hover:text-green-700 dark:hover:text-green-400">
+                    Dashboard
+                </a>
+
+                <a asp-controller="Account" asp-action="Login"
+                   class="hover:text-green-700 dark:hover:text-green-400">
+                    Logout
+                </a>
             </div>
+
+            <button onclick="toggleTheme()"
+                    class="px-3 py-1 rounded border dark:border-gray-400">
+                🌙
+            </button>
         </nav>
     </header>
+
 
     <!-- MAIN CONTENT -->
     <main class="max-w-7xl mx-auto px-4 py-6">
@@ -41,5 +66,18 @@
     </footer>
 
     @await RenderSectionAsync("Scripts", required: false)
+
+    <!--use javascript for toggling-->
+    <script>
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark')
+
+            localStorage.theme =
+              document.documentElement.classList.contains('dark')
+                ? 'dark'
+                : 'light'
+        }
+    </script>
 </body>
 </html>
+
