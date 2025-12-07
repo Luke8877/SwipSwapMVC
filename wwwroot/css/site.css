@@ -170,6 +170,49 @@ hr {
   border-top-width: 1px; /* 3 */
 }
 
+/* Fullscreen overlay */
+.product-modal {
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    overflow-y: auto;
+    z-index: 999;
+    transition: opacity 0.2s ease;
+}
+
+    .product-modal:target {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+.product-modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 4rem auto;
+    width: 90%;
+    max-width: 600px;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+    position: relative;
+}
+
+.product-modal-content img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.product-modal-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: #444;
+    text-decoration: none;
+}
 /*
 Add the correct text decoration in Chrome, Edge, and Safari.
 */
