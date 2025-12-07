@@ -17,7 +17,6 @@ public class MyListingsController : Controller
         _context = context;
     }
 
-
     public IActionResult Index(string search = "", string activeCategory = "all")
     {
         var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "userId");
@@ -47,9 +46,8 @@ public class MyListingsController : Controller
         return View(vm);
     }
 
-
     [HttpPost]
-    public async Task<IActionResult> Add(Product newProduct)
+    public async Task<IActionResult> Add(Product newProduct, IFormFile? ImageFile)
     {
         var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "userId");
         if (userIdClaim == null) return RedirectToAction("Login", "Account");
@@ -58,6 +56,7 @@ public class MyListingsController : Controller
 
         if (!ModelState.IsValid)
         {
+            ViewBag.Categories = _context.Categories.ToList();
             var vm = new MyListingsViewModel
             {
                 Products = _context.Products.Include(p => p.Category)
@@ -65,20 +64,33 @@ public class MyListingsController : Controller
                                             .ToList(),
                 NewProduct = newProduct
             };
-            ViewBag.Categories = _context.Categories.ToList();
             return View("Index", vm);
         }
 
-        newProduct.SellerId = userId;
+        // Handle uploaded image
+        if (ImageFile != null && ImageFile.Length > 0)
+        {
+            var fileName = Guid.NewGuid() + Path.GetExtension(ImageFile.FileName);
+            var uploadPath = Path.Combine("wwwroot/uploads", fileName);
+            Directory.CreateDirectory("wwwroot/uploads");
 
-        // Auto-geocode if address provided & no coords manually set
+            using (var stream = new FileStream(uploadPath, FileMode.Create))
+            {
+                ImageFile.CopyTo(stream);
+            }
+
+            newProduct.ImageUrl = "/uploads/" + fileName;
+        }
+
+        // Auto-geocode if needed
         if (!string.IsNullOrWhiteSpace(newProduct.PickupAddress)
             && (!newProduct.Latitude.HasValue || !newProduct.Longitude.HasValue))
         {
             try
             {
                 using var client = new HttpClient();
-                var url = $"https://nominatim.openstreetmap.org/search?format=json&q={Uri.EscapeDataString(newProduct.PickupAddress)}";
+                var url =
+                    $"https://nominatim.openstreetmap.org/search?format=json&q={Uri.EscapeDataString(newProduct.PickupAddress)}";
 
                 client.DefaultRequestHeaders.Add("User-Agent", "SwipSwap App");
 
@@ -93,10 +105,11 @@ public class MyListingsController : Controller
             }
             catch
             {
-                // Silent fallback - address remains text only
+                // Silent fallback
             }
         }
 
+        newProduct.SellerId = userId;
         _context.Products.Add(newProduct);
         await _context.SaveChangesAsync();
 
@@ -109,34 +122,44 @@ public class MyListingsController : Controller
         public string lon { get; set; }
     }
 
-
     [HttpPost]
-    public IActionResult Edit(Product updatedProduct)
+    public IActionResult Edit(Product updatedProduct, IFormFile? NewImageFile)
     {
         var existing = _context.Products.Find(updatedProduct.ProductId);
         if (existing == null) return RedirectToAction("Index");
 
-        // Verify user owns this listing
         var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "userId");
         int userId = int.Parse(userIdClaim.Value);
-
         if (existing.SellerId != userId) return Unauthorized();
 
         existing.Name = updatedProduct.Name;
         existing.Description = updatedProduct.Description;
         existing.Price = updatedProduct.Price;
         existing.CategoryId = updatedProduct.CategoryId;
-        existing.ImageUrl = updatedProduct.ImageUrl;
-
         existing.PickupAddress = updatedProduct.PickupAddress;
         existing.SellerPhone = updatedProduct.SellerPhone;
         existing.Latitude = updatedProduct.Latitude;
         existing.Longitude = updatedProduct.Longitude;
 
+        if (NewImageFile != null && NewImageFile.Length > 0)
+        {
+            var uploadsFolder = Path.Combine("wwwroot/uploads");
+            Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = Guid.NewGuid() + Path.GetExtension(NewImageFile.FileName);
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                NewImageFile.CopyTo(stream);
+            }
+
+            existing.ImageUrl = "/uploads/" + fileName;
+        }
+
         _context.SaveChanges();
         return RedirectToAction("Index");
     }
-
 
     [HttpPost]
     public IActionResult Delete(int ProductId)
@@ -144,10 +167,8 @@ public class MyListingsController : Controller
         var existing = _context.Products.Find(ProductId);
         if (existing == null) return RedirectToAction("Index");
 
-        // Verify owner before delete
         var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "userId");
         int userId = int.Parse(userIdClaim.Value);
-
         if (existing.SellerId != userId) return Unauthorized();
 
         _context.Products.Remove(existing);

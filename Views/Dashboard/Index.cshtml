@@ -3,15 +3,13 @@
 
 @{
     Layout = "_Layout";
-    
 }
 
 <div class="space-y-6">
 
     <!-- Search Bar -->
-    <form asp-action="Index" method="get"  class="flex items-center gap-2">
-        <input 
-               name="search"
+    <form asp-action="Index" method="get" class="flex items-center gap-2">
+        <input name="search"
                value="@ViewBag.Search"
                type="text"
                placeholder="Search for products..."
@@ -23,44 +21,14 @@
     </form>
 
     <!-- Category Buttons -->
-    <div class="flex flex-wrap gap-3" style="background: ">
-        <a 
-            asp-action="Index" 
-            asp-route-activeCategory = "Electronics"
-            class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-            Electronics
-        </a>
-        <a asp-action="Index"
-           asp-route-activeCategory="Clothing"
-           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-           Clothing
-        </a>
-        <a 
-            asp-action="Index" 
-            asp-route-activeCategory = "Home Goods"
-            class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-            Home Goods
-        </a>
-        <a asp-action="Index"
-           asp-route-activeCategory="Sports"
-           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-            Sports
-        </a>
-        <a asp-action="Index"
-           asp-route-activeCategory="Books"
-           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-            Books
-        </a>
-        <a asp-action="Index"
-           asp-route-activeCategory="Other"
-           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-            Other
-        </a>
-        <a asp-action="Index"
-           asp-route-activeCategory="all"
-           class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-            All
-        </a>
+    <div class="flex flex-wrap gap-3">
+        <a asp-action="Index" asp-route-activeCategory="Electronics" class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Electronics</a>
+        <a asp-action="Index" asp-route-activeCategory="Clothing" class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Clothing</a>
+        <a asp-action="Index" asp-route-activeCategory="Home & Garden" class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Home & Garden</a>
+        <a asp-action="Index" asp-route-activeCategory="Sports" class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Sports</a>
+        <a asp-action="Index" asp-route-activeCategory="Books" class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Books</a>
+        <a asp-action="Index" asp-route-activeCategory="Other" class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">Other</a>
+        <a asp-action="Index" asp-route-activeCategory="all" class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">All</a>
     </div>
 
     <!-- Product Grid -->
@@ -76,9 +44,9 @@
 @section Modals {
     @foreach (var product in Model)
     {
-        <div id="product-@product.ProductId" class="product-modal">
-            <div class="product-modal-content">
-                <a href="#" class="product-modal-close">✕</a>
+        <div id="product-@product.ProductId" class="product-modal dark:bg-gray-800 border dark:border-gray-700">
+            <div class="product-modal-content relative pt-10 z-10">
+                <a href="#" class="product-modal-close absolute top-4 right-4 text-2xl font-bold z-50">✕</a>
 
                 <img src="@product.ImageUrl" class="w-full rounded mb-3" />
                 <h2 class="text-xl font-bold mb-2">@product.Name</h2>
@@ -87,64 +55,18 @@
                 <p class="font-semibold text-green-700">
                     @product.Price.ToString("C")
                 </p>
+
                 <div class="mt-6 flex justify-end">
                     <form asp-controller="Checkout" asp-action="Create" method="post">
                         <input type="hidden" name="productId" value="@product.ProductId" />
-
                         <button type="submit"
                                 class="px-6 py-3 bg-green-700 text-white rounded-lg shadow hover:bg-green-800 transition">
                             Purchase
                         </button>
                     </form>
-
                 </div>
+
             </div>
         </div>
     }
 }
-
-<style>
-    /* Fullscreen overlay */
-    .product-modal {
-        opacity: 0;
-        pointer-events: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.5);
-        overflow-y: auto;
-        z-index: 999;
-        transition: opacity 0.2s ease;
-    }
-
-        .product-modal:target {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-    .product-modal-content {
-        background: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin: 4rem auto;
-        width: 90%;
-        max-width: 600px;
-        max-height: calc(100vh - 8rem);
-        overflow-y: auto;
-        position: relative;
-    }
-
-        .product-modal-content img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-    .product-modal-close {
-        position: absolute;
-        top: 0.75rem;
-        right: 1rem;
-        font-size: 1.5rem;
-        color: #444;
-        text-decoration: none;
-    }
-</style>

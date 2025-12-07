@@ -1,11 +1,29 @@
 ﻿@model SwipSwapMVC.Models.Product
 
 <a href="#product-@Model.ProductId" class="block">
-    <div class="product-card bg-white shadow-lg rounded-xl p-4 hover:shadow-2xl transition-all cursor-pointer">
-        <img src="@Model.ImageUrl" class="w-full h-48 object-cover rounded-md" />
+     <div class="
+        product-card
+        bg-white !bg-white
+        dark:bg-gray-800 dark:!bg-gray-800 dark:bg-opacity-100
+        text-gray-900 dark:text-gray-100
+        shadow-md dark:shadow-lg
+        rounded-xl p-4
+        border border-gray-200 dark:border-gray-700
+        hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-2xl
+        transition-all
+    ">
 
-        <h3 class="text-lg font-bold mt-2">@Model.Name</h3>
-        <p class="text-gray-600">@Model.Description</p>
-        <p class="text-green-700 font-semibold mt-1">@Model.Price.ToString("C")</p>
+
+        <img src="@Model.ImageUrl"
+             class="w-full h-48 object-cover rounded-md mb-3" />
+
+        <h3 class="text-lg font-bold">@Model.Name</h3>
+        <p class="text-gray-600 dark:text-gray-300">
+            @Model.Description
+        </p>
+
+        <p class="text-green-700 dark:text-green-400 font-semibold mt-1">
+            @Model.Price.ToString("C")
+        </p>
     </div>
 </a>
