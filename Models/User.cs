@@ -27,6 +27,8 @@ namespace SwipSwapMVC.Models
         [Phone]
         public string? PhoneNumber { get; set; }
 
+        public bool IsActive { get; set; } = true;
+
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
         public ICollection<Product>? Products { get; set; }   // Listings created by the user 

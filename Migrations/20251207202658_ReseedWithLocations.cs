@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace swipswapmvc.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class ReseedWithLocations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,6 +36,7 @@ namespace swipswapmvc.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -81,7 +82,12 @@ namespace swipswapmvc.Migrations
                     SellerId = table.Column<int>(type: "int", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsSold = table.Column<bool>(type: "bit", nullable: false),
-                    DatePosted = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    IsArchived = table.Column<bool>(type: "bit", nullable: false),
+                    DatePosted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PickupAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Latitude = table.Column<double>(type: "float", nullable: true),
+                    Longitude = table.Column<double>(type: "float", nullable: true),
+                    SellerPhone = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -97,7 +103,7 @@ namespace swipswapmvc.Migrations
                         column: x => x.SellerId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,11 +112,10 @@ namespace swipswapmvc.Migrations
                 {
                     OrderId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BuyerId = table.Column<int>(type: "int", nullable: false),
+                    BuyerId = table.Column<int>(type: "int", nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeliveryType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -137,10 +142,12 @@ namespace swipswapmvc.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     Provider = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProviderPaymentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SessionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PaymentIntentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PaymentStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PaidAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -168,17 +175,17 @@ namespace swipswapmvc.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserId", "DateCreated", "Email", "PasswordHash", "PhoneNumber", "Username" },
-                values: new object[] { 1, new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4320), "demo@example.com", "Password123!", null, "Demo User" });
+                columns: new[] { "UserId", "DateCreated", "Email", "IsActive", "PasswordHash", "PhoneNumber", "Username" },
+                values: new object[] { 1, new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(8771), "demo@example.com", true, "Password123!", "0000000000", "Demo User" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ProductId", "CategoryId", "DatePosted", "Description", "ImageUrl", "IsSold", "Name", "Price", "SellerId" },
+                columns: new[] { "ProductId", "CategoryId", "DatePosted", "Description", "ImageUrl", "IsArchived", "IsSold", "Latitude", "Longitude", "Name", "PickupAddress", "Price", "SellerId", "SellerPhone" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4503), "256GB — Deep Purple — excellent condition", "/uploads/iphone14.jpg", false, "iPhone 14 Pro", 1199.99m, 1 },
-                    { 2, 1, new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4507), "RTX 3070 — 16GB RAM — 1TB SSD", "/uploads/laptop.jpg", false, "Gaming Laptop", 1599.00m, 1 },
-                    { 3, 3, new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4510), "Aluminum frame — good condition", "/uploads/bike.jpg", false, "Mountain Bike", 450.00m, 1 }
+                    { 1, 1, new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9278), "256GB — Deep Purple — excellent condition", "/uploads/iphone14.jpg", false, false, 53.523200000000003, -113.6247, "iPhone 14 Pro", "8882 170 St NW, Edmonton, AB", 1199.99m, 1, "780-111-1111" },
+                    { 2, 1, new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9294), "RTX 3070 — 16GB RAM — 1TB SSD", "/uploads/laptop.jpg", false, false, 53.488999999999997, -113.4987, "Gaming Laptop", "7005 Gateway Blvd NW, Edmonton, AB", 1599.00m, 1, "780-222-2222" },
+                    { 3, 4, new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9308), "Aluminum frame — good condition", "/uploads/bike.jpg", false, false, 52.293599999999998, -113.81870000000001, "Mountain Bike", "1000 Taylor Dr, Red Deer, AB", 450.00m, 1, "780-333-3333" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -194,8 +201,7 @@ namespace swipswapmvc.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_ProductId",
                 table: "Orders",
-                column: "ProductId",
-                unique: true);
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_OrderId",

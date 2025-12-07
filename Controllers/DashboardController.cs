@@ -2,36 +2,49 @@
 using Microsoft.EntityFrameworkCore;
 using SwipSwapMVC.Data;
 using SwipSwapMVC.Models;
+using System.Linq;
 
-namespace swipswapmvc.Controllers
+namespace SwipSwapMVC.Controllers
 {
     public class DashboardController : Controller
     {
-        private AppDbContext _context;
+        private readonly AppDbContext _context;
+
         public DashboardController(AppDbContext context)
         {
             _context = context;
         }
+
         public IActionResult Index(string activeCategory = "all", string search = "")
         {
-            ViewBag.ActiveCategory = activeCategory; // the current product category
-            ViewBag.Search = search; // the search string in the search bar
+            // Get the logged-in user's ID
+            var userIdClaim = User?.FindFirst("id")?.Value;
+            int buyerId = !string.IsNullOrEmpty(userIdClaim) ? int.Parse(userIdClaim) : 0;
 
-            IQueryable<Product> products = _context.Products.Include(p => p.Category); //returns all products joined with category
-            
-            // if category is not all, filter to products with active category names
+            // MAIN FEED
+            IQueryable<Product> products = _context.Products
+                .Include(p => p.Category)
+                .Where(p => !p.IsSold); // Hide sold products
+
+            // Category filter
             if (activeCategory != "all")
-            {
-                products = products.Where(
-                    p => p.Category.Name == activeCategory);
-            }
+                products = products.Where(p => p.Category.Name == activeCategory);
 
+            // Search filter
             if (!string.IsNullOrWhiteSpace(search))
-            {
-                products = products.Where(
-                    p => p.Name.Contains(search));
-            } 
-           
+                products = products.Where(p => p.Name.Contains(search));
+
+            // PAST PURCHASES
+            var pastOrders = _context.Orders
+                .Include(o => o.Product)
+                .Where(o => o.BuyerId == buyerId && o.Status == OrderStatus.Paid)
+                .OrderByDescending(o => o.CreatedAt)
+                .ToList();
+
+            ViewBag.PastOrders = pastOrders;
+            ViewBag.ActiveCategory = activeCategory;
+            ViewBag.Search = search;
+
             return View(products.ToList());
         }
 

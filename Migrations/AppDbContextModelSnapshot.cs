@@ -119,29 +119,23 @@ namespace swipswapmvc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
-                    b.Property<int>("BuyerId")
+                    b.Property<int?>("BuyerId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DeliveryType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("OrderDate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("OrderId");
 
                     b.HasIndex("BuyerId");
 
-                    b.HasIndex("ProductId")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Orders");
                 });
@@ -157,11 +151,17 @@ namespace swipswapmvc.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("PaymentDate")
+                    b.Property<DateTime?>("PaidAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentIntentId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PaymentStatus")
                         .IsRequired()
@@ -171,7 +171,7 @@ namespace swipswapmvc.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProviderPaymentId")
+                    b.Property<string>("SessionId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PaymentId");
@@ -202,11 +202,23 @@ namespace swipswapmvc.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsArchived")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsSold")
                         .HasColumnType("bit");
 
+                    b.Property<double?>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("Longitude")
+                        .HasColumnType("float");
+
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PickupAddress")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
@@ -215,6 +227,9 @@ namespace swipswapmvc.Migrations
 
                     b.Property<int>("SellerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SellerPhone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductId");
 
@@ -229,37 +244,52 @@ namespace swipswapmvc.Migrations
                         {
                             ProductId = 1,
                             CategoryId = 1,
-                            DatePosted = new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4503),
+                            DatePosted = new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9278),
                             Description = "256GB — Deep Purple — excellent condition",
                             ImageUrl = "/uploads/iphone14.jpg",
+                            IsArchived = false,
                             IsSold = false,
+                            Latitude = 53.523200000000003,
+                            Longitude = -113.6247,
                             Name = "iPhone 14 Pro",
+                            PickupAddress = "8882 170 St NW, Edmonton, AB",
                             Price = 1199.99m,
-                            SellerId = 1
+                            SellerId = 1,
+                            SellerPhone = "780-111-1111"
                         },
                         new
                         {
                             ProductId = 2,
                             CategoryId = 1,
-                            DatePosted = new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4507),
+                            DatePosted = new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9294),
                             Description = "RTX 3070 — 16GB RAM — 1TB SSD",
                             ImageUrl = "/uploads/laptop.jpg",
+                            IsArchived = false,
                             IsSold = false,
+                            Latitude = 53.488999999999997,
+                            Longitude = -113.4987,
                             Name = "Gaming Laptop",
+                            PickupAddress = "7005 Gateway Blvd NW, Edmonton, AB",
                             Price = 1599.00m,
-                            SellerId = 1
+                            SellerId = 1,
+                            SellerPhone = "780-222-2222"
                         },
                         new
                         {
                             ProductId = 3,
-                            CategoryId = 3,
-                            DatePosted = new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4510),
+                            CategoryId = 4,
+                            DatePosted = new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9308),
                             Description = "Aluminum frame — good condition",
                             ImageUrl = "/uploads/bike.jpg",
+                            IsArchived = false,
                             IsSold = false,
+                            Latitude = 52.293599999999998,
+                            Longitude = -113.81870000000001,
                             Name = "Mountain Bike",
+                            PickupAddress = "1000 Taylor Dr, Red Deer, AB",
                             Price = 450.00m,
-                            SellerId = 1
+                            SellerId = 1,
+                            SellerPhone = "780-333-3333"
                         });
                 });
 
@@ -277,6 +307,9 @@ namespace swipswapmvc.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -298,9 +331,11 @@ namespace swipswapmvc.Migrations
                         new
                         {
                             UserId = 1,
-                            DateCreated = new DateTime(2025, 12, 6, 10, 0, 29, 155, DateTimeKind.Local).AddTicks(4320),
+                            DateCreated = new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(8771),
                             Email = "demo@example.com",
+                            IsActive = true,
                             PasswordHash = "Password123!",
+                            PhoneNumber = "0000000000",
                             Username = "Demo User"
                         });
                 });
@@ -321,8 +356,7 @@ namespace swipswapmvc.Migrations
                     b.HasOne("SwipSwapMVC.Models.User", "Buyer")
                         .WithMany("Orders")
                         .HasForeignKey("BuyerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SwipSwapMVC.Models.Product", "Product")
                         .WithOne("Order")
@@ -354,15 +388,15 @@ namespace swipswapmvc.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SwipSwapMVC.Models.User", "User")
+                    b.HasOne("SwipSwapMVC.Models.User", "Seller")
                         .WithMany("Products")
                         .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
 
-                    b.Navigation("User");
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("SwipSwapMVC.Models.Category", b =>

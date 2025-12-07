@@ -6,47 +6,44 @@
     Layout = "_Layout";
 }
 
-    <div class="space-y-6">
-        <div class="flex justify-between items-center mb-6 px-4">
-            <form asp-action="Index" method="get" class="flex gap-2">
-                <input type="text"
-                       name="search"
-                       value="@Model.Search"
-                       placeholder="Search your listings..."
-                       class="px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-green-600 focus:outline-none" />
-                <button class="px-6 py-2 bg-green-700 text-white rounded-lg shadow hover:bg-green-800">
-                    Search
-                </button>
-            </form>
-
-            <button onclick="openAddModal()"
-                    class="px-6 py-2 bg-green-700 text-white rounded-lg shadow hover:bg-green-800">
-                Add Item
+<div class="space-y-6">
+    <div class="flex justify-between items-center mb-6 px-4">
+        <form asp-action="Index" method="get" class="flex gap-2">
+            <input type="text"
+                   name="search"
+                   value="@Model.Search"
+                   placeholder="Search your listings..."
+                   class="px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-green-600 focus:outline-none" />
+            <button class="px-6 py-2 bg-green-700 text-white rounded-lg shadow hover:bg-green-800">
+                Search
             </button>
+        </form>
+
+        <button onclick="openAddModal()"
+                class="px-6 py-2 bg-green-700 text-white rounded-lg shadow hover:bg-green-800">
+            Add Item
+        </button>
+    </div>
+
+    @if (!Model.Products.Any())
+    {
+        <div class="flex justify-center mt-20 text-gray-500">
+            <p class="text-center">
+                No listings found.
+                <button onclick="openAddModal()" class="text-green-700 underline font-semibold hover:text-green-800">
+                    Click here
+                </button> to add one.
+            </p>
         </div>
-    
-  
+    }
 
-        @if (!Model.Products.Any())
-        {
-            <div class="flex justify-center mt-20 text-gray-500">
-                <p class="text-center">
-                    No listings found. 
-                    <button onclick="openAddModal()" class="text-green-700 underline font-semibold hover:text-green-800">
-                        Click here
-                    </button> to add one.
-                </p>
-            </div>
-        }
-
-        @if (Model.Products.Any())
-        {
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                @foreach (var product in Model.Products)
-                {
+    @if (Model.Products.Any())
+    {
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            @foreach (var product in Model.Products)
+            {
                 <div class="
-                        product-card  
-                        bg-white !bg-white
+                        product-card bg-white !bg-white
                         dark:bg-gray-800 dark:!bg-gray-800 dark:bg-opacity-100
                         text-gray-900 dark:text-gray-100
                         shadow-md dark:shadow-lg
@@ -54,19 +51,18 @@
                         border border-gray-200 dark:border-gray-700
                         hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-2xl
                         transition-all"
-            
-                        onclick="openEditModal(@product.ProductId)"
-                >
-                        <img src="@product.ImageUrl" class="w-full h-48 object-cover rounded mb-2" />
-                        <h3 class="font-bold">@product.Name</h3>
-                        <p class="text-green-700 font-semibold">@product.Price.ToString("C")</p>
-                        <p>@product.Description</p>
-                    </div>
-                }
-            </div>
-        }
-    </div>
-    <!-- Add Modal -->
+                        onclick="openEditModal(@product.ProductId)">
+                    <img src="@product.ImageUrl" class="w-full h-48 object-cover rounded mb-2" />
+                    <h3 class="font-bold">@product.Name</h3>
+                    <p class="text-green-700 font-semibold">@product.Price.ToString("C")</p>
+                    <p>@product.Description</p>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<!-- Add Modal -->
 <div id="addItemModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
     <div style="background:white; width:700px; max-width:120vw; max-height:90vh; padding:24px; border-radius:12px; overflow-y:auto; position:relative;">
         <button onclick="closeAddModal()" class="absolute top-4 right-4 text-2xl font-bold">&times;</button>
@@ -77,14 +73,17 @@
                 <label asp-for="NewProduct.Name" class="block mb-1">Product Name</label>
                 <input asp-for="NewProduct.Name" class="w-full border rounded px-3 py-2" />
             </div>
+
             <div>
                 <label asp-for="NewProduct.Description" class="block mb-1">Description</label>
                 <textarea asp-for="NewProduct.Description" class="w-full border rounded px-3 py-2"></textarea>
             </div>
+
             <div>
                 <label asp-for="NewProduct.Price" class="block mb-1">Price</label>
                 <input asp-for="NewProduct.Price" class="w-full border rounded px-3 py-2" />
             </div>
+
             <div>
                 <label asp-for="NewProduct.CategoryId" class="block mb-1">Category</label>
                 <select asp-for="NewProduct.CategoryId" class="w-full border rounded px-3 py-2"
@@ -92,9 +91,22 @@
                     <option value="">Select Category</option>
                 </select>
             </div>
+
             <div>
                 <label class="block mb-1">Upload Image</label>
                 <input type="file" name="ImageFile" accept="image/*" class="w-full border rounded px-3 py-2" />
+            </div>
+
+            <div>
+                <label asp-for="NewProduct.PickupAddress" class="block mb-1">Pickup Address</label>
+                <input asp-for="NewProduct.PickupAddress" class="w-full border rounded px-3 py-2"
+                       placeholder="123 Main St, Edmonton" />
+            </div>
+
+            <div>
+                <label asp-for="NewProduct.SellerPhone" class="block mb-1">Seller Phone</label>
+                <input asp-for="NewProduct.SellerPhone" class="w-full border rounded px-3 py-2"
+                       placeholder="555-123-4567" />
             </div>
 
             <button type="submit" class="px-6 py-2 bg-green-700 text-white rounded-lg shadow hover:bg-green-800">
@@ -102,13 +114,12 @@
             </button>
             <div asp-validation-summary="All" class="text-red-600"></div>
         </form>
-       
     </div>
 </div>
 
-<!-- Edit/Delete Modal -->
+<!-- Edit Modal -->
 <div id="editItemModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
-     <div style="background:white; width:700px; max-width:120vw; max-height:90vh; padding:24px; border-radius:12px; overflow-y:auto; position:relative;">
+    <div style="background:white; width:700px; max-width:120vw; max-height:90vh; padding:24px; border-radius:12px; overflow-y:auto; position:relative;">
         <button onclick="closeEditModal()" class="absolute top-4 right-4 text-2xl font-bold">&times;</button>
         <h2 class="text-2xl font-bold mb-4">Edit Item</h2>
 
@@ -119,36 +130,50 @@
                 <label for="editName" class="block mb-1">Product Name</label>
                 <input id="editName" name="Name" class="w-full border rounded px-3 py-2" />
             </div>
+
             <div>
                 <label for="editDescription" class="block mb-1">Description</label>
                 <textarea id="editDescription" name="Description" class="w-full border rounded px-3 py-2"></textarea>
             </div>
+
             <div>
                 <label for="editPrice" class="block mb-1">Price</label>
                 <input id="editPrice" name="Price" class="w-full border rounded px-3 py-2" />
             </div>
+
             <div>
                 <label for="editCategory" class="block mb-1">Category</label>
                 <select id="editCategory" name="CategoryId" class="w-full border rounded px-3 py-2">
-                    <option value="">Select Category</option>
                     @foreach(var c in ViewBag.Categories)
                     {
                         <option value="@c.CategoryId">@c.Name</option>
                     }
                 </select>
             </div>
+
             <div>
                 <label class="block mb-1">Upload New Image</label>
                 <input type="file" name="NewImageFile" accept="image/*" class="w-full border rounded px-3 py-2" />
             </div>
 
+            <div>
+                <label for="editPickupAddress" class="block mb-1">Pickup Address</label>
+                <input id="editPickupAddress" name="PickupAddress" class="w-full border rounded px-3 py-2" />
+            </div>
+
+            <div>
+                <label for="editSellerPhone" class="block mb-1">Seller Phone</label>
+                <input id="editSellerPhone" name="SellerPhone" class="w-full border rounded px-3 py-2" />
+            </div>
+
             <div class="flex gap-2 mt-4">
-                <button type="submit" formaction="/MyListings/Edit" class="px-6 py-2 bg-green-700 text-white rounded-lg shadow hover:bg-green-800">
+                <button type="submit" formaction="/MyListings/Edit"
+                        class="px-6 py-2 bg-green-700 text-white rounded-lg shadow hover:bg-green-800">
                     Save
                 </button>
-                <button type="submit" 
-                    formaction="/MyListings/Delete" 
-                    style="background-color:#dc2626; color:white; padding:0.5rem 1.5rem; border-radius:0.5rem; font-weight:bold; box-shadow:0 2px 4px rgba(0,0,0,0.1); cursor:pointer;">
+
+                <button type="submit" formaction="/MyListings/Delete"
+                        style="background-color:#dc2626; color:white; padding:0.5rem 1.5rem; border-radius:0.5rem; font-weight:bold; box-shadow:0 2px 4px rgba(0,0,0,0.1); cursor:pointer;">
                     Delete
                 </button>
             </div>
@@ -158,29 +183,32 @@
 
 <script>
     function openEditModal(id) {
-        // Only serialize necessary properties to avoid cycles
-        const productData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+        const products = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
             Model.Products.Select(p => new {
                 p.ProductId,
                 p.Name,
                 p.Description,
                 p.Price,
                 CategoryId = p.CategoryId,
-                p.ImageUrl
+                p.ImageUrl,
+                p.PickupAddress,
+                p.SellerPhone
             })
         ));
 
-        const product = productData.find(x => x.ProductId === id);
+        const product = products.find(x => x.ProductId === id);
 
         document.getElementById('editProductId').value = product.ProductId;
         document.getElementById('editName').value = product.Name;
         document.getElementById('editDescription').value = product.Description;
         document.getElementById('editPrice').value = product.Price;
         document.getElementById('editCategory').value = product.CategoryId;
+        document.getElementById('editPickupAddress').value = product.PickupAddress ?? '';
+        document.getElementById('editSellerPhone').value = product.SellerPhone ?? '';
 
         document.getElementById('editItemModal').classList.remove('hidden');
     }
-     
+
     function openAddModal() {
         document.getElementById('addItemModal').classList.remove('hidden');
     }

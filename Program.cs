@@ -2,24 +2,32 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Stripe;
 using SwipSwapMVC.Data;
 using SwipSwapMVC.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add MVC
+// ------------------------------------------------------------
+// MVC
+// ------------------------------------------------------------
 builder.Services.AddControllersWithViews();
 
-// Add DbContext
+// ------------------------------------------------------------
+// Database - EF Core SQL Server
+// ------------------------------------------------------------
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// For password hashing
+// ------------------------------------------------------------
+// Password Hasher (supports login functionality coming later)
+// ------------------------------------------------------------
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
-
-// JWT configuration
+// ------------------------------------------------------------
+// JWT Authentication for user dashboard + account pages
+// ------------------------------------------------------------
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
 
@@ -42,8 +50,10 @@ builder.Services.AddAuthentication(options =>
             return Task.CompletedTask;
         }
     };
-    options.RequireHttpsMetadata = false; // Development-only
+
+    options.RequireHttpsMetadata = false; // For development only
     options.SaveToken = true;
+
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -55,21 +65,38 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// ------------------------------------------------------------
+// Stripe API initialization
+// ------------------------------------------------------------
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
+
 var app = builder.Build();
 
+// ------------------------------------------------------------
+// Production error & security pipeline
+// ------------------------------------------------------------
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
+// ------------------------------------------------------------
+// Middleware pipeline
+// ------------------------------------------------------------
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();
+app.UseAuthentication(); // <–– enabled for login + JWT support
 app.UseAuthorization();
+
+// ------------------------------------------------------------
+// Route registrations
+// ------------------------------------------------------------
+app.MapControllers(); // enables webhook: [Route("stripe/webhook")]
 
 app.MapControllerRoute(
     name: "default",
