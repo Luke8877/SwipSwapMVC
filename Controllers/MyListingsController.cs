@@ -48,20 +48,38 @@ public class MyListingsController : Controller
     }
 
     [HttpPost]
-    public IActionResult Edit(Product updatedProduct)
+    public IActionResult Edit(Product updatedProduct, IFormFile? NewImageFile)
     {
         var existing = _context.Products.Find(updatedProduct.ProductId);
-        if (existing != null)
+        if (existing == null)
+            return RedirectToAction("Index");
+
+        existing.Name = updatedProduct.Name;
+        existing.Description = updatedProduct.Description;
+        existing.Price = updatedProduct.Price;
+        existing.CategoryId = updatedProduct.CategoryId;
+
+        // if a new image was uploaded
+        if (NewImageFile != null && NewImageFile.Length > 0)
         {
-            existing.Name = updatedProduct.Name;
-            existing.Description = updatedProduct.Description;
-            existing.Price = updatedProduct.Price;
-            existing.CategoryId = updatedProduct.CategoryId;
-            existing.ImageUrl = updatedProduct.ImageUrl;
-            _context.SaveChanges();
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+            Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(NewImageFile.FileName);
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                NewImageFile.CopyTo(stream);
+            }
+
+            existing.ImageUrl = "/images/" + fileName;
         }
+
+        _context.SaveChanges();
         return RedirectToAction("Index");
     }
+
 
     [HttpPost]
     public IActionResult Delete(int ProductId)
@@ -75,18 +93,19 @@ public class MyListingsController : Controller
         return RedirectToAction("Index");
     }
 
-  
+
     [HttpPost]
-    public IActionResult Add(Product newProduct)
+    public IActionResult Add(Product newProduct, IFormFile? ImageFile)
     {
         var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "userId");
         if (userIdClaim == null) return RedirectToAction("Login", "Account");
 
         int userId = int.Parse(userIdClaim.Value);
 
+        // built-in validation for required fields
         if (!ModelState.IsValid)
         {
-            // If model validation fails, reload Index with current products
+            ViewBag.Categories = _context.Categories.ToList();
             var vm = new MyListingsViewModel
             {
                 Products = _context.Products
@@ -95,13 +114,25 @@ public class MyListingsController : Controller
                                    .ToList(),
                 NewProduct = newProduct
             };
-            ViewBag.Categories = _context.Categories.ToList();
             return View("Index", vm);
         }
 
-        
-        newProduct.SellerId = userId;
+        // custom validation for uploaded image
+        if (ImageFile != null && ImageFile.Length > 0)
+        {
+            var fileName = Guid.NewGuid() + Path.GetExtension(ImageFile.FileName);
+            var uploadPath = Path.Combine("wwwroot/uploads", fileName);
 
+            using (var stream = new FileStream(uploadPath, FileMode.Create))
+            {
+                ImageFile.CopyTo(stream);
+            }
+
+            newProduct.ImageUrl = "/uploads/" + fileName;
+        }
+
+
+        newProduct.SellerId = userId;
         _context.Products.Add(newProduct);
         _context.SaveChanges();
 

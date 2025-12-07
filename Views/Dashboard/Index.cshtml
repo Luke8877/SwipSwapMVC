@@ -37,9 +37,9 @@
         </a>
         <a 
             asp-action="Index" 
-            asp-route-activeCategory = "Home Goods"
+            asp-route-activeCategory = "Home & Garden"
             class="px-4 py-2 bg-white border rounded-full shadow-sm hover:bg-gray-100">
-            Home Goods
+            Home & Garden
         </a>
         <a asp-action="Index"
            asp-route-activeCategory="Sports"
@@ -77,22 +77,23 @@
     @foreach (var product in Model)
     {
         <div id="product-@product.ProductId" class="product-modal">
-            <div class="product-modal-content">
-                <a href="#" class="product-modal-close">✕</a>
+            <div class="product-modal-content relative pt-10 z-10">
+                <a href="#" class="product-modal-close absolute top-4 right-4 text-2xl font-bold z-50">✕</a>
 
                 <img src="@product.ImageUrl" class="w-full rounded mb-3" />
                 <h2 class="text-xl font-bold mb-2">@product.Name</h2>
                 <p class="mb-3">@product.Description</p>
 
-                <p class="font-semibold text-green-700">
-                    @product.Price.ToString("C")
-                </p>
-                <div class="mt-6 flex justify-end">
+                <div class="flex justify-between items-center mt-6">
+                    <p class="font-semibold text-green-700">@product.Price.ToString("C")</p>
+
                     <a href="/Dashboard/Purchase/@product.ProductId"
                        class="px-6 py-3 bg-green-700 text-white rounded-lg shadow hover:bg-green-800 transition">
                         Purchase
                     </a>
                 </div>
+
+
             </div>
         </div>
     }
