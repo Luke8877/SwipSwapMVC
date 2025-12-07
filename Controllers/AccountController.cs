@@ -115,6 +115,14 @@ namespace SwipSwapMVC.Controllers
             // Optional: store token (not required unless you're using JWT in UI)
             ViewBag.Token = token;
 
+            Response.Cookies.Append("MyListingsJwtToken", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddHours(1)
+            });
+
             return RedirectToAction("Index", "Dashboard");
         }
 
