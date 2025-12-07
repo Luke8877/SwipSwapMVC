@@ -60,7 +60,7 @@
         <button onclick="closeAddModal()" class="absolute top-4 right-4 text-2xl font-bold">&times;</button>
         <h2 class="text-2xl font-bold mb-4">Add New Item</h2>
 
-        <form asp-controller="MyListings" asp-action="Add" method="post" class="space-y-4">
+        <form asp-controller="MyListings" asp-action="Add" method="post" enctype="multipart/form-data" class="space-y-4">
             <div>
                 <label asp-for="NewProduct.Name" class="block mb-1">Product Name</label>
                 <input asp-for="NewProduct.Name" class="w-full border rounded px-3 py-2" />
@@ -81,14 +81,16 @@
                 </select>
             </div>
             <div>
-                <label asp-for="NewProduct.ImageUrl" class="block mb-1">Image URL</label>
-                <input asp-for="NewProduct.ImageUrl" class="w-full border rounded px-3 py-2" />
+                <label class="block mb-1">Upload Image</label>
+                <input type="file" name="ImageFile" accept="image/*" class="w-full border rounded px-3 py-2" />
             </div>
 
             <button type="submit" class="px-6 py-2 bg-green-700 text-white rounded-lg shadow hover:bg-green-800">
                 Add Item
             </button>
+            <div asp-validation-summary="All" class="text-red-600"></div>
         </form>
+       
     </div>
 </div>
 
@@ -98,7 +100,7 @@
         <button onclick="closeEditModal()" class="absolute top-4 right-4 text-2xl font-bold">&times;</button>
         <h2 class="text-2xl font-bold mb-4">Edit Item</h2>
 
-        <form id="editForm" method="post" class="space-y-4">
+        <form id="editForm" method="post" enctype="multipart/form-data" class="space-y-4">
             <input type="hidden" name="ProductId" id="editProductId" />
 
             <div>
@@ -124,8 +126,8 @@
                 </select>
             </div>
             <div>
-                <label for="editImage" class="block mb-1">Image URL</label>
-                <input id="editImage" name="ImageUrl" class="w-full border rounded px-3 py-2" />
+                <label class="block mb-1">Upload New Image</label>
+                <input type="file" name="NewImageFile" accept="image/*" class="w-full border rounded px-3 py-2" />
             </div>
 
             <div class="flex gap-2 mt-4">
@@ -163,7 +165,6 @@
         document.getElementById('editDescription').value = product.Description;
         document.getElementById('editPrice').value = product.Price;
         document.getElementById('editCategory').value = product.CategoryId;
-        document.getElementById('editImage').value = product.ImageUrl;
 
         document.getElementById('editItemModal').classList.remove('hidden');
     }
