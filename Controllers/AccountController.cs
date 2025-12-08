@@ -8,6 +8,7 @@ using SwipSwapMVC.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace SwipSwapMVC.Controllers
 {
@@ -38,6 +39,33 @@ namespace SwipSwapMVC.Controllers
         [HttpPost]
         public IActionResult Register(User model)
         {
+            ModelState.Clear();
+
+            if (model.Username == null)
+            {
+                ModelState.AddModelError("", "Username is required.");
+                return View(model);
+            }
+
+            if (model.Email == null)
+            {
+                ModelState.AddModelError("", "Email is required.");
+                return View(model);
+            }
+
+            if (model.Password == null)
+            {
+                ModelState.AddModelError("", "Password is required.");
+                return View(model);
+            }
+
+            if (!Regex.IsMatch(model.Password, @"^(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$"))
+            {
+                ModelState.AddModelError("", "Password must have at least eight characters, one capital letter, and a symbol.");
+                return View(model);
+            }
+
+
             if (model.Password != model.ConfirmPassword)
             {
                 ModelState.AddModelError("", "Passwords do not match.");
@@ -77,6 +105,7 @@ namespace SwipSwapMVC.Controllers
         [HttpPost]
         public IActionResult Login(User model)
         {
+            ModelState.Clear();
             // Treat the input field as either username OR email
             string loginInput = model.Username;
 
@@ -139,11 +168,20 @@ namespace SwipSwapMVC.Controllers
         [HttpPost]
         public IActionResult ForgotPassword(User model)
         {
+            ModelState.Clear();
+
             var user = _context.Users.FirstOrDefault(u => u.Email == model.Email);
 
             if (user == null)
             {
                 ModelState.AddModelError("Email", "Email not found.");
+                return View(model);
+            }
+
+
+            if (!Regex.IsMatch(model.NewPassword, @"^(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$"))
+            {
+                ModelState.AddModelError("", "Password must have at least eight characters, one capital letter, and a symbol.");
                 return View(model);
             }
 

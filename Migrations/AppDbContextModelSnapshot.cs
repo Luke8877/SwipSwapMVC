@@ -244,7 +244,7 @@ namespace swipswapmvc.Migrations
                         {
                             ProductId = 1,
                             CategoryId = 1,
-                            DatePosted = new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9278),
+                            DatePosted = new DateTime(2025, 12, 7, 22, 32, 57, 869, DateTimeKind.Utc).AddTicks(1308),
                             Description = "256GB — Deep Purple — excellent condition",
                             ImageUrl = "/uploads/iphone14.jpg",
                             IsArchived = false,
@@ -261,7 +261,7 @@ namespace swipswapmvc.Migrations
                         {
                             ProductId = 2,
                             CategoryId = 1,
-                            DatePosted = new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9294),
+                            DatePosted = new DateTime(2025, 12, 7, 22, 32, 57, 869, DateTimeKind.Utc).AddTicks(1315),
                             Description = "RTX 3070 — 16GB RAM — 1TB SSD",
                             ImageUrl = "/uploads/laptop.jpg",
                             IsArchived = false,
@@ -278,7 +278,7 @@ namespace swipswapmvc.Migrations
                         {
                             ProductId = 3,
                             CategoryId = 4,
-                            DatePosted = new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9308),
+                            DatePosted = new DateTime(2025, 12, 7, 22, 32, 57, 869, DateTimeKind.Utc).AddTicks(1320),
                             Description = "Aluminum frame — good condition",
                             ImageUrl = "/uploads/bike.jpg",
                             IsArchived = false,
@@ -331,7 +331,7 @@ namespace swipswapmvc.Migrations
                         new
                         {
                             UserId = 1,
-                            DateCreated = new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(8771),
+                            DateCreated = new DateTime(2025, 12, 7, 22, 32, 57, 869, DateTimeKind.Utc).AddTicks(1079),
                             Email = "demo@example.com",
                             IsActive = true,
                             PasswordHash = "Password123!",
