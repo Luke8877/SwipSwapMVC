@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace swipswapmvc.Migrations
 {
     /// <inheritdoc />
-    public partial class ReseedWithLocations : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -176,16 +176,16 @@ namespace swipswapmvc.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "DateCreated", "Email", "IsActive", "PasswordHash", "PhoneNumber", "Username" },
-                values: new object[] { 1, new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(8771), "demo@example.com", true, "Password123!", "0000000000", "Demo User" });
+                values: new object[] { 1, new DateTime(2025, 12, 7, 22, 32, 57, 869, DateTimeKind.Utc).AddTicks(1079), "demo@example.com", true, "Password123!", "0000000000", "Demo User" });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "ProductId", "CategoryId", "DatePosted", "Description", "ImageUrl", "IsArchived", "IsSold", "Latitude", "Longitude", "Name", "PickupAddress", "Price", "SellerId", "SellerPhone" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9278), "256GB — Deep Purple — excellent condition", "/uploads/iphone14.jpg", false, false, 53.523200000000003, -113.6247, "iPhone 14 Pro", "8882 170 St NW, Edmonton, AB", 1199.99m, 1, "780-111-1111" },
-                    { 2, 1, new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9294), "RTX 3070 — 16GB RAM — 1TB SSD", "/uploads/laptop.jpg", false, false, 53.488999999999997, -113.4987, "Gaming Laptop", "7005 Gateway Blvd NW, Edmonton, AB", 1599.00m, 1, "780-222-2222" },
-                    { 3, 4, new DateTime(2025, 12, 7, 20, 26, 58, 226, DateTimeKind.Utc).AddTicks(9308), "Aluminum frame — good condition", "/uploads/bike.jpg", false, false, 52.293599999999998, -113.81870000000001, "Mountain Bike", "1000 Taylor Dr, Red Deer, AB", 450.00m, 1, "780-333-3333" }
+                    { 1, 1, new DateTime(2025, 12, 7, 22, 32, 57, 869, DateTimeKind.Utc).AddTicks(1308), "256GB — Deep Purple — excellent condition", "/uploads/iphone14.jpg", false, false, 53.523200000000003, -113.6247, "iPhone 14 Pro", "8882 170 St NW, Edmonton, AB", 1199.99m, 1, "780-111-1111" },
+                    { 2, 1, new DateTime(2025, 12, 7, 22, 32, 57, 869, DateTimeKind.Utc).AddTicks(1315), "RTX 3070 — 16GB RAM — 1TB SSD", "/uploads/laptop.jpg", false, false, 53.488999999999997, -113.4987, "Gaming Laptop", "7005 Gateway Blvd NW, Edmonton, AB", 1599.00m, 1, "780-222-2222" },
+                    { 3, 4, new DateTime(2025, 12, 7, 22, 32, 57, 869, DateTimeKind.Utc).AddTicks(1320), "Aluminum frame — good condition", "/uploads/bike.jpg", false, false, 52.293599999999998, -113.81870000000001, "Mountain Bike", "1000 Taylor Dr, Red Deer, AB", 450.00m, 1, "780-333-3333" }
                 });
 
             migrationBuilder.CreateIndex(
